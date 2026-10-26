@@ -1,6 +1,6 @@
 import taxonomy from "../../design/data/taxonomy.json";
 
-// Phase 1 reads taxonomy straight from the design export; Phase 2 moves it to Supabase.
+// Disciplines and levels are fixed taxonomy (THE subject areas), read from the design export at build time.
 export type LevelCode = keyof typeof taxonomy.levels;
 
 export const levelSlugs: Record<LevelCode, string> = {
@@ -10,10 +10,18 @@ export const levelSlugs: Record<LevelCode, string> = {
   P: "phd",
 };
 
+export const levelSubtitles: Record<LevelCode, string> = {
+  B: "Undergraduate degrees",
+  M: "Taught: MSc, MA, MBA, LLM",
+  R: "MPhil, Master's by Research, PG Diploma, research student",
+  P: "Doctoral, incl. DPhil and professional doctorates",
+};
+
 export const levels = (Object.keys(taxonomy.levels) as LevelCode[]).map((code) => ({
   code,
   name: taxonomy.levels[code],
   slug: levelSlugs[code],
+  sub: levelSubtitles[code],
 }));
 
 export function slugify(name: string) {

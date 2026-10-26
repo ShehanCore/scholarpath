@@ -116,3 +116,36 @@
     display: none !important;
   }
 }
+
+/* Slow pan/zoom on destination thumbnails (prototype "kb" animations). Off for reduced motion. */
+@keyframes kbIn {
+  from { transform: scale(1.02) translate(0, 0); }
+  to { transform: scale(1.16) translate(-2%, -1.5%); }
+}
+@keyframes kbOut {
+  from { transform: scale(1.16) translate(2%, 1%); }
+  to { transform: scale(1.03) translate(0, 0); }
+}
+@keyframes kbPanL {
+  from { transform: scale(1.14) translate(4%, 0); }
+  to { transform: scale(1.14) translate(-4%, 0); }
+}
+@keyframes kbPanR {
+  from { transform: scale(1.14) translate(-4%, 0); }
+  to { transform: scale(1.14) translate(4%, 0); }
+}
+@keyframes kbRise {
+  from { transform: scale(1.15) translate(0, 4%); }
+  to { transform: scale(1.08) translate(0, -3%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-kb] {
+    animation: none !important;
+  }
+}
+
+/* Home layout A/B switch: set on <html> by an inline script before first paint (see home-variant.tsx). */
+html:not([data-home="b"]) .home-b,
+html[data-home="b"] .home-a {
+  display: none;
+}

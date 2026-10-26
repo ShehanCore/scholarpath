@@ -39,6 +39,30 @@ const humanChecks: Record<string, string> = {
 };
 const VARIES_NOTE = "Deadline varies by university; confirm per institution.";
 
+// Correction 1 also covers prose: funding amounts and "what it covers" are cut from summaries and
+// deadline notes. Each entry is [original text, replacement]; the replacement must exist verbatim in the
+// original minus the funding clause, so nothing new is written.
+const fundingCuts: Record<string, { summary?: [string, string | null]; deadlineNote?: [string, string] }> = {
+  chevening: { summary: [", with flights, tuition and a living allowance.", "."] },
+  ireland: { summary: ["*", null] },
+  daad: { summary: [": €992 a month for master's, €1,400 for doctoral, plus insurance and travel.", "."] },
+  erasmus: { summary: [" Covers tuition and insurance, plus €1,400 a month for up to 24 months.", ""] },
+  mgrs: { deadlineNote: [" About 600 a year: A$39,500 stipend plus full fee offset.", ""] },
+  miu: { deadlineNote: ["20% fee remission from 2027 for citizens of listed lower-income countries", "For citizens of listed lower-income countries"] },
+  holland: { deadlineNote: [" One-time €5,000 in your first year.", ""] },
+  swiss: { deadlineNote: [" CHF 2,450 a month.", ""] },
+  hkpfs: { deadlineNote: [" HK$344,400 a year.", ""] },
+};
+
+function cut(id: string, field: "summary" | "deadlineNote", text: string | null): string | null {
+  const rule = fundingCuts[id]?.[field];
+  if (!rule || !text) return text || null;
+  const [from, to] = rule;
+  if (from === "*") return to;
+  if (!text.includes(from)) throw new Error(`Funding cut for ${id}.${field} no longer matches the source text`);
+  return text.replace(from, to ?? "") || null;
+}
+
 export function designDestinations(): Destination[] {
   // Correction 5: open-scholarship and ranked-university counts are computed, so they aren't imported.
   return destinationsJson.map((d, i) => ({ code: d.code, name: d.name, why: d.why, sortOrder: i + 1 }));
@@ -98,9 +122,9 @@ export function designScholarships(): Scholarship[] {
       disciplineLabel: s.disciplineLabel,
       opens: s.opens,
       closes: s.closes,
-      deadlineNote: s.deadlineNote || null,
+      deadlineNote: cut(s.id, "deadlineNote", s.deadlineNote),
       awards: s.awards || null,
-      summary: s.summary || null,
+      summary: cut(s.id, "summary", s.summary),
       officialUrl: s.officialUrl,
       lastVerified: isoFromDisplay(s.lastVerified),
       verificationStatus: s.verificationStatus as VerificationStatus,

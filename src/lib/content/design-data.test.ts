@@ -13,6 +13,14 @@ describe("design data corrections", () => {
       expect(s).not.toHaveProperty("covers");
     }
   });
+  it("keeps funding amounts and coverage out of all prose", () => {
+    const funding = /[€£$¥]|CHF|stipend|allowance|fee (waiver|remission|offset)|tuition|a month|a year:/i;
+    for (const s of scholarships) {
+      for (const text of [s.summary, s.deadlineNote, s.awards, s.whereUsable, ...(s.eligibility ?? []), ...(s.documents ?? [])]) {
+        expect(text ?? "", s.id).not.toMatch(funding);
+      }
+    }
+  });
   it("starts every university unranked until the THE import", () => {
     expect(universities.every((u) => u.theRank === null)).toBe(true);
   });

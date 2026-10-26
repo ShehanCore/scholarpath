@@ -4,10 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useSaved } from "@/lib/client/saved-store";
 import { isActive, mainNav, savedHref, type NavItem } from "@/lib/site-nav";
-
-// Saved scholarships arrive with the shortlist in Phase 7; until then the count is always 0.
-const savedCount = 0;
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -33,7 +31,7 @@ export function SiteHeader() {
     return () => document.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
-  const savedLabel = `Saved (${savedCount})`;
+  const savedLabel = `Saved (${useSaved().length})`;
   const savedActive = isActive(pathname, [savedHref]);
   const navItems: NavItem[] = [...mainNav, { label: savedLabel, href: savedHref, match: [savedHref] }];
 
