@@ -18,6 +18,8 @@ export const levels = (Object.keys(taxonomy.levels) as LevelCode[]).map((code) =
 
 export function slugify(name: string) {
   return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
