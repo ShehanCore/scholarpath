@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import type { Checklist } from "./checklist";
 import {
   answersToIndexes,
+  outreachToRow,
+  rowToOutreach,
   checklistToItemRows,
   diffIds,
   indexesToAnswers,
@@ -40,4 +42,23 @@ describe("sync merges", () => {
     expect(answersToIndexes(indexesToAnswers([3, 0]))).toEqual([0, 3]);
   });
   it("diffs saved snapshots", () => expect(diffIds(["a", "b"], ["b", "c"])).toEqual({ added: ["c"], removed: ["a"] }));
+});
+
+describe("outreach rows", () => {
+  it("round-trips an entry through the database row", () => {
+    const e = {
+      id: "6f1c0a9e-0000-4000-8000-000000000001",
+      scholarshipId: "chevening",
+      to: "professor" as const,
+      university: "UCL",
+      name: "Professor Silva",
+      email: "silva@ucl.ac.uk",
+      purpose: "supervision" as const,
+      subject: "Prospective student",
+      sentAt: "2026-10-22",
+      status: "awaiting" as const,
+    };
+    expect(rowToOutreach({ ...outreachToRow(e), sent_at: "2026-10-22T00:00:00+00:00" })).toEqual(e);
+    expect(outreachToRow({ ...e, name: "", email: "" })).toMatchObject({ recipient_name: null, recipient_email: null });
+  });
 });

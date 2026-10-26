@@ -98,10 +98,28 @@ insert into public.saved (scholarship_id) values ('chevening'), ('gates');
 insert into public.checklists (scholarship_id, level) values ('chevening', 'M');
 insert into public.checklist_items (checklist_id, item_id, state)
   select id, 'A1', 'done' from public.checklists where scholarship_id = 'chevening';
-insert into public.outreach (recipient_type, purpose, subject) values ('admissions', 'eligibility', 'Question');
+insert into public.outreach (client_id, recipient_type, purpose, subject) values ('6f1c0a9e-0000-4000-8000-000000000001', 'admissions', 'eligibility', 'Question');
+insert into public.reminders (scholarship_id) values ('daad');
 update public.profiles set levels = '{M,P}', destinations = '{GB}', intake = '2027';
 do $$ begin
   assert (select count(*) from public.saved) = 2, 'A sees own saved';
+  assert (select count(*) from public.reminders) = 1, 'A sees own reminder';
+  begin
+    insert into public.outreach (client_id, recipient_type, purpose, subject)
+      values ('6f1c0a9e-0000-4000-8000-000000000001', 'admissions', 'eligibility', 'Again');
+    raise exception 'duplicate client_id accepted';
+  exception when unique_violation then null;
+  end;
+  begin
+    perform public.take_ai_draft('00000000-0000-0000-0000-00000000000a', current_date, 20);
+    raise exception 'a signed-in user called the AI quota function directly';
+  exception when insufficient_privilege then null;
+  end;
+  begin
+    perform count(*) from public.ai_draft_usage;
+    raise exception 'a signed-in user read AI usage';
+  exception when insufficient_privilege then null;
+  end;
   assert (select count(*) from public.profiles) = 1, 'A sees only own profile';
   begin
     insert into public.saved (user_id, scholarship_id) values ('00000000-0000-0000-0000-00000000000b', 'daad');
@@ -124,6 +142,7 @@ begin
   assert (select count(*) from public.checklists) = 0, 'B sees no checklists of A';
   assert (select count(*) from public.checklist_items) = 0, 'B sees no checklist items of A';
   assert (select count(*) from public.outreach) = 0, 'B sees no outreach of A';
+  assert (select count(*) from public.reminders) = 0, 'B sees no reminders of A';
   assert (select count(*) from public.profiles) = 1, 'B sees only own profile';
   update public.profiles set name = 'hijack' where id = '00000000-0000-0000-0000-00000000000a';
   delete from public.saved where scholarship_id = 'chevening';
@@ -147,3 +166,17 @@ begin
   end;
 end $$;
 reset role;
+
+-- AI drafts: 20 a day per user, atomic; a failed call gives one back.
+do $$
+declare ok boolean; a uuid := '00000000-0000-0000-0000-00000000000a';
+begin
+  for i in 1..20 loop
+    assert public.take_ai_draft(a, '2026-10-26', 20), 'draft ' || i || ' allowed';
+  end loop;
+  assert not public.take_ai_draft(a, '2026-10-26', 20), '21st draft refused';
+  perform public.give_back_ai_draft(a, '2026-10-26');
+  assert public.take_ai_draft(a, '2026-10-26', 20), 'given-back draft can be used';
+  assert public.take_ai_draft(a, '2026-10-27', 20), 'new day, new allowance';
+  assert (select count from public.ai_draft_usage where user_id = a and day = '2026-10-26') = 20, 'count stays at the limit';
+end $$;

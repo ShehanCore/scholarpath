@@ -82,10 +82,11 @@ export type Database = {
         updated_at: string;
       }>;
       saved: Table<{ user_id: string; scholarship_id: string; created_at: string }>;
-      reminders: Table<{ user_id: string; scholarship_id: string; enabled: boolean; created_at: string }>;
+      reminders: Table<{ user_id: string; scholarship_id: string; enabled: boolean; created_at: string; notified_for: string | null; token: string }>;
       outreach: Table<{
         id: number;
         user_id: string;
+        client_id: string;
         scholarship_id: string | null;
         recipient_type: "admissions" | "international" | "professor";
         university_name: string | null;
@@ -115,6 +116,7 @@ export type Database = {
         note: string | null;
         updated_at: string;
       }>;
+      ai_draft_usage: Table<{ user_id: string; day: string; count: number }>;
       rankings: Table<RankingRow & { id: number; updated_at: string; updated_by: string | null }>;
       reopen_alerts: Table<{
         id: number;
@@ -131,7 +133,10 @@ export type Database = {
     Views: {
       current_rankings: { Row: RankingRow; Relationships: [] };
     };
-    Functions: Record<never, never>;
+    Functions: {
+      take_ai_draft: { Args: { p_user: string; p_day: string; p_limit: number }; Returns: boolean };
+      give_back_ai_draft: { Args: { p_user: string; p_day: string }; Returns: undefined };
+    };
     Enums: {
       level_code: LevelCode;
       verification_status: "checked" | "expected_or_to_confirm" | "sample";

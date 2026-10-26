@@ -232,12 +232,20 @@ create table public.reminders (
   scholarship_id text not null references public.scholarships (id) on delete cascade,
   enabled boolean not null default true,
   created_at timestamptz not null default now(),
+  -- Closing date the 7-day email reminder was sent for, so the daily job sends it once per deadline.
+  notified_for date,
+  -- Secret used in the reminder email's "Stop this reminder" link.
+  token uuid not null default gen_random_uuid() unique,
   primary key (user_id, scholarship_id)
 );
 
+-- Emails the student opened in their own mail app (ScholarPath never sends them). Only the subject is
+-- kept, not the message.
 create table public.outreach (
   id bigint generated always as identity primary key,
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
+  -- Made on the device that logged it, so the same entry is matched across devices.
+  client_id uuid not null,
   scholarship_id text references public.scholarships (id) on delete set null,
   recipient_type public.outreach_recipient not null,
   university_name text,
@@ -248,9 +256,38 @@ create table public.outreach (
   sent_at timestamptz not null default now(),
   status public.outreach_status not null default 'awaiting',
   followed_up_at timestamptz,
-  replied_at timestamptz
+  replied_at timestamptz,
+  unique (user_id, client_id)
 );
 create index outreach_user_idx on public.outreach (user_id, sent_at desc);
+
+-- AI email drafts per user per day (Sri Lanka date), for the 20-a-day limit. Server only.
+create table public.ai_draft_usage (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  day date not null,
+  count integer not null default 0 check (count >= 0),
+  primary key (user_id, day)
+);
+
+-- Takes one draft from today's allowance; returns false when it's used up. Atomic, so parallel
+-- requests can't go over the limit.
+create or replace function public.take_ai_draft(p_user uuid, p_day date, p_limit integer) returns boolean
+language sql set search_path = '' as $$
+  with taken as (
+    insert into public.ai_draft_usage as u (user_id, day, count) values (p_user, p_day, 1)
+    on conflict (user_id, day) do update set count = u.count + 1 where u.count < p_limit
+    returning 1
+  )
+  select exists (select 1 from taken);
+$$;
+
+-- Gives a draft back when the model call failed, so outages don't use up the allowance.
+create or replace function public.give_back_ai_draft(p_user uuid, p_day date) returns void
+language sql set search_path = '' as $$
+  update public.ai_draft_usage set count = count - 1 where user_id = p_user and day = p_day and count > 0;
+$$;
+revoke all on function public.take_ai_draft(uuid, date, integer), public.give_back_ai_draft(uuid, date) from public, anon, authenticated;
+grant execute on function public.take_ai_draft(uuid, date, integer), public.give_back_ai_draft(uuid, date) to service_role;
 
 -- "Notify me when it reopens" requests. Written and read only by the server (service role): visitors
 -- don't need an account, so there is no public policy. Pending = not yet notified and not unsubscribed.
@@ -288,6 +325,7 @@ alter table public.checklist_items enable row level security;
 alter table public.eligibility_answers enable row level security;
 alter table public.reminders enable row level security;
 alter table public.outreach enable row level security;
+alter table public.ai_draft_usage enable row level security;
 
 -- Content: anyone can read; only the service role (which bypasses RLS) writes.
 create policy "Content is public" on public.destinations for select to anon, authenticated using (true);
@@ -296,7 +334,7 @@ create policy "Content is public" on public.universities for select to anon, aut
 create policy "Content is public" on public.rankings for select to anon, authenticated using (true);
 create policy "Content is public" on public.scholarships for select to anon, authenticated using (true);
 create policy "Content is public" on public.scholarship_universities for select to anon, authenticated using (true);
--- verification_log, reopen_alerts: no policies, so only the service role can read or write them.
+-- verification_log, reopen_alerts, ai_draft_usage: no policies, so only the service role can read or write them.
 
 -- User tables: own rows only.
 create policy "Own profile" on public.profiles for all to authenticated

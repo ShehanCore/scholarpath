@@ -44,7 +44,11 @@ export function Dialog({
       if (opener.current instanceof HTMLElement) opener.current.focus();
     };
     el.addEventListener("close", onClosed);
-    return () => el.removeEventListener("close", onClosed);
+    return () => {
+      el.removeEventListener("close", onClosed);
+      // Unmounted while open (rendered conditionally): still unlock the page and return focus.
+      if (el.open) onClosed();
+    };
   }, []);
 
   return (
