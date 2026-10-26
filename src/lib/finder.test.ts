@@ -51,12 +51,12 @@ describe("applyFilters", () => {
 
 describe("sortResults by rank", () => {
   it("uses university and best-in-country ranks, unranked and closed last", () => {
-    const ranked = universities.map((u) =>
-      u.id === "university-of-toronto" ? { ...u, theRank: "21" } : u.id === "ucl" ? { ...u, theRank: "=17" } : u,
-    );
-    const pick = scholarships.filter((s) => ["pearson", "gates", "chevening", "daad"].includes(s.id));
-    // pearson: Toronto 21; gates: Cambridge unranked; chevening and daad are closed, so last, by date.
-    expect(sortResults(pick, ranked, "rank", today).map((s) => s.id)).toEqual(["pearson", "gates", "chevening", "daad"]);
+    const pick = scholarships.filter((s) => ["pearson", "gates", "mgrs", "rtp", "fulbright", "chevening", "daad"].includes(s.id));
+    // gates: Cambridge 5; mgrs: Melbourne =34; rtp: national AU, best AU = Melbourne 34, closes the same day as mgrs;
+    // pearson: Toronto and fulbright: no US ranks → unranked, by date; chevening and daad are closed, so last.
+    expect(sortResults(pick, universities, "rank", today).map((s) => s.id)).toEqual([
+      "gates", "mgrs", "rtp", "pearson", "fulbright", "chevening", "daad",
+    ]);
   });
 });
 

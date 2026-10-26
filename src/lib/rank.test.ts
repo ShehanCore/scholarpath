@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { RANK_TO_CONFIRM, byRank, normaliseTheRank, rankLabel, rankSortKey } from "./rank";
+import { RANK_TO_CONFIRM, byRank, normaliseTheRank, parseRank, rankLabel, rankSortKey } from "./rank";
 
 describe("rank", () => {
-  it("labels unknown ranks", () => expect(rankLabel({ theRank: null })).toBe(RANK_TO_CONFIRM));
+  it("labels unknown ranks", () => expect(rankLabel({ rankDisplay: null })).toBe(RANK_TO_CONFIRM));
   it("keeps ties and bands as published", () => {
-    expect(rankLabel({ theRank: "=17" })).toBe("=17");
+    expect(rankLabel({ rankDisplay: "=17" })).toBe("=17");
     expect(normaliseTheRank(" 301-350 ")).toBe("301–350");
     expect(normaliseTheRank("1501+")).toBe("1501+");
     expect(normaliseTheRank("=17")).toBe("=17");
@@ -16,13 +16,18 @@ describe("rank", () => {
   });
   it("sorts ascending with unranked last", () => {
     const list = [
-      { name: "B", theRank: null },
-      { name: "C", theRank: "301–350" },
-      { name: "D", theRank: "=17" },
-      { name: "A", theRank: null },
-      { name: "E", theRank: "5" },
+      { name: "B", rankSort: null },
+      { name: "C", rankSort: 301 },
+      { name: "D", rankSort: 17 },
+      { name: "A", rankSort: null },
+      { name: "E", rankSort: 5 },
     ];
     expect(list.sort(byRank).map((u) => u.name)).toEqual(["E", "D", "C", "A", "B"]);
     expect(rankSortKey(null)).toBe(Number.POSITIVE_INFINITY);
+  });
+  it("parses into display and sort fields", () => {
+    expect(parseRank("=17")).toEqual({ rankDisplay: "=17", rankSort: 17 });
+    expect(parseRank("301-350")).toEqual({ rankDisplay: "301–350", rankSort: 301 });
+    expect(parseRank("Rank band: to confirm")).toBeNull();
   });
 });

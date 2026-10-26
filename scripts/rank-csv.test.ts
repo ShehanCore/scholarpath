@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { designUniversities } from "../src/lib/content/design-data";
-import { matchRanks, nameKey, parseCsv } from "./the-ranks";
+import { matchRanks, nameKey, parseCsv } from "./rank-csv";
 
 const universities = designUniversities();
 

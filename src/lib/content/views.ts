@@ -18,7 +18,7 @@ export function universityRow(u: University, scholarships: Scholarship[]): Unive
     id: u.id,
     href: universityHref(u.id),
     rank: rankLabel(u),
-    ranked: u.theRank !== null,
+    ranked: u.rankDisplay !== null,
     name: u.name,
     city: u.city ?? "Not published",
     scholarships: usable.length,

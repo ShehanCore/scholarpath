@@ -18,12 +18,23 @@ export type University = {
   city: string | null;
   countryCode: string;
   levels: LevelCode[];
-  /** Exactly as THE publishes it ("1", "=17", "301–350"), or null when not imported or not matched. */
-  theRank: string | null;
-  rankSourceUrl: string | null;
-  rankRetrievedAt: string | null;
+  /** Rank exactly as published ("1", "=17", "301–350"); null shows "Rank band: to confirm". */
+  rankDisplay: string | null;
+  /** Number to order by ("=17" → 17, "301–350" → 301); null when unranked. */
+  rankSort: number | null;
   websiteUrl: string | null;
   staffDirectoryUrl: string | null;
+};
+
+/** A row of the `rankings` table: one university's rank in one edition. */
+export type Ranking = {
+  universityId: string;
+  countryCode: string;
+  rankDisplay: string;
+  rankSort: number;
+  year: number;
+  source: string;
+  sourceUrl: string | null;
 };
 
 export type TimelineStep = { label: string; when: string };

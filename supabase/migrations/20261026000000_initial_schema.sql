@@ -41,18 +41,39 @@ create table public.universities (
   city text,
   country_code text not null references public.destinations (code),
   levels public.level_code[] not null default '{}',
-  -- THE World University Rankings 2027 only, exactly as published ("1", "=17", "301–350", "1501+").
-  -- Null = not imported or not matched → "Rank band: to confirm".
-  the_rank text check (the_rank ~ '^(=?\d+|\d+–\d+|\d+\+)$'),
-  the_rank_sort int generated always as (nullif(substring(the_rank from '\d+'), '')::int) stored,
-  rank_source_url text,
-  rank_retrieved_at timestamptz,
   website_url text,
   staff_directory_url text,
   updated_at timestamptz not null default now(),
-  constraint rank_has_source check (the_rank is null or (rank_source_url is not null and rank_retrieved_at is not null))
+  unique (id, country_code)
 );
-create index universities_country_idx on public.universities (country_code, the_rank_sort);
+create index universities_country_idx on public.universities (country_code);
+
+-- University ranks, one row per university per edition. Source: THE World University Rankings as
+-- recorded in the brief, edited in the admin; updated once a year. A university with no row shows
+-- "Rank band: to confirm". rank_display is exactly as published ("1", "=17", "301–350", "1501+");
+-- rank_sort is the number to order by (17, 301) — never sort on rank_display.
+create table public.rankings (
+  id bigint generated always as identity primary key,
+  university_id text not null,
+  country_code text not null,
+  rank_display text not null check (rank_display ~ '^(=?\d+|\d+–\d+|\d+\+)$'),
+  rank_sort int not null check (rank_sort = substring(rank_display from '\d+')::int),
+  year int not null check (year between 2000 and 2100),
+  source text not null,
+  source_url text check (source_url is null or source_url ~ '^https://'),
+  updated_at timestamptz not null default now(),
+  updated_by text,
+  unique (university_id, year),
+  foreign key (university_id, country_code) references public.universities (id, country_code)
+    on update cascade on delete cascade
+);
+create index rankings_year_sort_idx on public.rankings (year, rank_sort);
+
+-- Latest edition's rank for each university.
+create view public.current_rankings with (security_invoker = true) as
+  select distinct on (university_id) university_id, country_code, rank_display, rank_sort, year, source, source_url
+  from public.rankings
+  order by university_id, year desc;
 
 create table public.scholarships (
   id text primary key,
@@ -109,6 +130,8 @@ create table public.verification_log (
 create index verification_log_scholarship_idx on public.verification_log (scholarship_id, verified_at desc);
 
 create trigger universities_updated_at before update on public.universities
+  for each row execute function public.set_updated_at();
+create trigger rankings_updated_at before update on public.rankings
   for each row execute function public.set_updated_at();
 create trigger scholarships_updated_at before update on public.scholarships
   for each row execute function public.set_updated_at();
@@ -202,14 +225,35 @@ create table public.outreach (
 );
 create index outreach_user_idx on public.outreach (user_id, sent_at desc);
 
+-- "Notify me when it reopens" requests. Written and read only by the server (service role): visitors
+-- don't need an account, so there is no public policy. Pending = not yet notified and not unsubscribed.
+create table public.reopen_alerts (
+  id bigint generated always as identity primary key,
+  scholarship_id text not null references public.scholarships (id) on delete cascade,
+  email text not null check (length(email) <= 254 and email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
+  user_id uuid references auth.users (id) on delete cascade,
+  -- Explicit consent ticked on the form (PDPA); the row isn't created without it.
+  consent_at timestamptz not null default now(),
+  -- Secret used in the unsubscribe link.
+  token uuid not null default gen_random_uuid() unique,
+  created_at timestamptz not null default now(),
+  notified_at timestamptz,
+  unsubscribed_at timestamptz,
+  unique (scholarship_id, email)
+);
+create index reopen_alerts_pending_idx on public.reopen_alerts (scholarship_id)
+  where notified_at is null and unsubscribed_at is null;
+
 -- ---------------------------------------------------------------- security
 
 alter table public.destinations enable row level security;
 alter table public.disciplines enable row level security;
 alter table public.universities enable row level security;
+alter table public.rankings enable row level security;
 alter table public.scholarships enable row level security;
 alter table public.scholarship_universities enable row level security;
 alter table public.verification_log enable row level security;
+alter table public.reopen_alerts enable row level security;
 alter table public.profiles enable row level security;
 alter table public.saved enable row level security;
 alter table public.checklists enable row level security;
@@ -222,9 +266,10 @@ alter table public.outreach enable row level security;
 create policy "Content is public" on public.destinations for select to anon, authenticated using (true);
 create policy "Content is public" on public.disciplines for select to anon, authenticated using (true);
 create policy "Content is public" on public.universities for select to anon, authenticated using (true);
+create policy "Content is public" on public.rankings for select to anon, authenticated using (true);
 create policy "Content is public" on public.scholarships for select to anon, authenticated using (true);
 create policy "Content is public" on public.scholarship_universities for select to anon, authenticated using (true);
--- verification_log: no policies, so only the service role can read or write it.
+-- verification_log, reopen_alerts: no policies, so only the service role can read or write them.
 
 -- User tables: own rows only.
 create policy "Own profile" on public.profiles for all to authenticated
@@ -245,8 +290,8 @@ create policy "Own outreach" on public.outreach for all to authenticated
 
 -- Explicit grants, so the Data API works whether or not the project grants new tables by default.
 revoke all on all tables in schema public from anon, authenticated;
-grant select on public.destinations, public.disciplines, public.universities, public.scholarships,
-  public.scholarship_universities to anon, authenticated;
+grant select on public.destinations, public.disciplines, public.universities, public.rankings,
+  public.current_rankings, public.scholarships, public.scholarship_universities to anon, authenticated;
 grant select, insert, update, delete on public.profiles, public.saved, public.checklists, public.checklist_items,
   public.eligibility_answers, public.reminders, public.outreach to authenticated;
 grant all on all tables in schema public to service_role;

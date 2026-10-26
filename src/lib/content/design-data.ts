@@ -5,8 +5,9 @@ import checklistJson from "../../../design/data/checklist.json";
 import destinationsJson from "../../../design/data/destinations.json";
 import scholarshipsJson from "../../../design/data/scholarships.json";
 import universitiesJson from "../../../design/data/universities.json";
+import { RANK_SOURCE, RANK_SOURCE_URL, RANK_YEAR, parseRank } from "@/lib/rank";
 import { slugify } from "@/lib/taxonomy";
-import type { Destination, LevelCode, Scholarship, University, VerificationStatus } from "./types";
+import type { Destination, LevelCode, Ranking, Scholarship, University, VerificationStatus } from "./types";
 
 const levelCodeByName: Record<string, LevelCode> = {
   "Bachelor's": "B",
@@ -68,10 +69,36 @@ export function designDestinations(): Destination[] {
   return destinationsJson.map((d, i) => ({ code: d.code, name: d.name, why: d.why, sortOrder: i + 1 }));
 }
 
+/**
+ * Correction 2: THE World University Rankings 2027 ranks as recorded in the brief (universities.json),
+ * stored as data and edited in the admin. "Rank band: to confirm" entries get no row.
+ */
+export function designRankings(): Ranking[] {
+  return universitiesJson.detailed.flatMap((u) => {
+    const rank = parseRank(u.rank);
+    return rank
+      ? [{ universityId: slugify(u.name), countryCode: u.country, ...rank, year: RANK_YEAR, source: RANK_SOURCE, sourceUrl: RANK_SOURCE_URL }]
+      : [];
+  });
+}
+
+/** Universities with their current rank merged in. */
+export function withRankings(universities: Omit<University, "rankDisplay" | "rankSort">[], rankings: Ranking[]): University[] {
+  const byId = new Map(rankings.map((r) => [r.universityId, r]));
+  return universities.map((u) => ({
+    ...u,
+    rankDisplay: byId.get(u.id)?.rankDisplay ?? null,
+    rankSort: byId.get(u.id)?.rankSort ?? null,
+  }));
+}
+
 export function designUniversities(): University[] {
-  const base = { theRank: null, rankSourceUrl: null, rankRetrievedAt: null, websiteUrl: null, staffDirectoryUrl: null };
-  // Correction 2: ranks in the handoff aren't trusted. Every university starts unranked until the THE import.
-  const detailed: University[] = universitiesJson.detailed.map((u) => ({
+  return withRankings(designUniversityRows(), designRankings());
+}
+
+function designUniversityRows(): Omit<University, "rankDisplay" | "rankSort">[] {
+  const base = { websiteUrl: null, staffDirectoryUrl: null };
+  const detailed = universitiesJson.detailed.map((u) => ({
     ...base,
     id: slugify(u.name),
     name: u.name,
@@ -80,10 +107,10 @@ export function designUniversities(): University[] {
     levels: levelCodes(u.levels),
   }));
   const detailedCountries = new Set(detailed.map((u) => u.countryCode));
-  const named: University[] = Object.entries(universitiesJson.namesByCountry)
+  const named = Object.entries(universitiesJson.namesByCountry)
     .filter(([country]) => !detailedCountries.has(country))
     .flatMap(([country, names]) =>
-      names.map((name) => ({ ...base, id: slugify(name), name, city: null, countryCode: country, levels: [] })),
+      names.map((name) => ({ ...base, id: slugify(name), name, city: null, countryCode: country, levels: [] as LevelCode[] })),
     );
   const all = [...detailed, ...named];
   const ids = new Set<string>();

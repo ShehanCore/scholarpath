@@ -3,7 +3,7 @@
 // uni (university id), dl (days until deadline), q (text), sort. Lists are comma-separated.
 // There is deliberately no funding filter or funding sort (CLAUDE.md).
 import type { LevelCode, Scholarship, University } from "@/lib/content/types";
-import { byRank, rankSortKey } from "@/lib/rank";
+import { byRank } from "@/lib/rank";
 import { byDeadline, daysLeft, statusOf } from "@/lib/status";
 import { disciplines, levels } from "@/lib/taxonomy";
 
@@ -97,7 +97,7 @@ export function applyFilters(
 }
 
 /**
- * "University rank" uses the owning university's THE rank, or for national awards the best-ranked
+ * "University rank" uses the owning university's rank, or for national awards the best-ranked
  * university in that country. Unranked sorts last; closed always sorts last; ties fall back to deadline.
  */
 export function sortResults(res: Scholarship[], universities: University[], sort: FinderSort, today: string) {
@@ -107,11 +107,13 @@ export function sortResults(res: Scholarship[], universities: University[], sort
   const rankOf = (s: Scholarship) => {
     const u = s.universityId
       ? universities.find((x) => x.id === s.universityId)
-      : ranked.find((x) => x.countryCode === s.destinationCode && x.theRank);
-    return rankSortKey(u?.theRank ?? null);
+      : ranked.find((x) => x.countryCode === s.destinationCode && x.rankSort !== null);
+    return u?.rankSort ?? Infinity;
   };
   const closed = (s: Scholarship) => (statusOf(s, today) === "Closed" ? 1 : 0);
-  return [...res].sort((a, b) => closed(a) - closed(b) || rankOf(a) - rankOf(b) || deadline(a, b));
+  return [...res].sort(
+    (a, b) => closed(a) - closed(b) || rankOf(a) - rankOf(b) || deadline(a, b) || a.name.localeCompare(b.name),
+  );
 }
 
 export type FilterChip = { label: string; remove: (f: FinderFilters) => FinderFilters };

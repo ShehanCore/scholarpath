@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { destinationStats } from "./derive";
-import { designDestinations, designScholarships, designUniversities } from "./design-data";
+import { designDestinations, designRankings, designScholarships, designUniversities } from "./design-data";
 import { verificationChip } from "../verification";
 
 const scholarships = designScholarships();
@@ -21,8 +21,13 @@ describe("design data corrections", () => {
       }
     }
   });
-  it("starts every university unranked until the THE import", () => {
-    expect(universities.every((u) => u.theRank === null)).toBe(true);
+  it("takes ranks from the brief, keeping display and sort apart", () => {
+    const rankings = designRankings();
+    expect(rankings).toHaveLength(20);
+    expect(universities.find((u) => u.id === "ucl")).toMatchObject({ rankDisplay: "=17", rankSort: 17 });
+    expect(universities.find((u) => u.id === "university-of-warwick")).toMatchObject({ rankDisplay: null, rankSort: null });
+    expect(universities.find((u) => u.id === "mit")?.rankDisplay).toBeNull(); // not in the brief's rank list
+    expect(rankings.every((r) => r.year === 2027 && r.source.startsWith("Times Higher Education"))).toBe(true);
   });
   it("links university scholarships to a known university", () => {
     expect(scholarships.find((s) => s.id === "pearson")?.universityId).toBe("university-of-toronto");
@@ -51,9 +56,9 @@ describe("destinationStats", () => {
   it("computes counts from data and today's date", () => {
     // Chevening closed 6 Oct; Commonwealth closed 20 Oct; Gates and Clarendon are still open on 26 Oct 2026.
     const gb = destinationStats({ code: "GB" }, scholarships, universities, "2026-10-26");
-    expect(gb).toEqual({ openScholarships: 2, rankedUniversities: 0, nextDeadline: "2026-12-08" });
-    const ranked = universities.map((u) => (u.id === "ucl" ? { ...u, theRank: "=17" } : u));
-    expect(destinationStats({ code: "GB" }, scholarships, ranked, "2026-10-26").rankedUniversities).toBe(1);
+    expect(gb).toEqual({ openScholarships: 2, rankedUniversities: 10, nextDeadline: "2026-12-08" });
+    const unranked = universities.map((u) => ({ ...u, rankDisplay: null, rankSort: null }));
+    expect(destinationStats({ code: "GB" }, scholarships, unranked, "2026-10-26").rankedUniversities).toBe(0);
   });
   it("reports no next deadline when everything has closed", () => {
     expect(destinationStats({ code: "GB" }, scholarships, universities, "2030-01-01").nextDeadline).toBeNull();

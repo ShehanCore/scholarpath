@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { byDeadline, daysLeft, statusOf, todayIso } from "./status";
+import { formatDate } from "./verification";
 
 const s = (opens: string, closes: string) => ({ opens, closes });
 
@@ -31,5 +32,12 @@ describe("todayIso", () => {
   it("uses Sri Lanka time", () => {
     // 20:00 UTC on 25 Oct is 01:30 on 26 Oct in Colombo.
     expect(todayIso(new Date("2026-10-25T20:00:00Z"))).toBe("2026-10-26");
+  });
+});
+
+describe("formatDate", () => {
+  it("matches the prototype", () => {
+    expect(formatDate("2027-09-09")).toBe("9 Sep 2027");
+    expect(formatDate("2026-10-22")).toBe("22 Oct 2026");
   });
 });

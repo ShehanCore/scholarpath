@@ -5,11 +5,12 @@ export type VerificationChip = {
   label: string;
 };
 
-/** "22 Oct 2026" from an ISO date. */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "22 Oct 2026" from an ISO date, as in the prototype (fixed month names; Intl writes "Sept" in some locales). */
 export function formatDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(
-    new Date(iso + "T00:00:00Z"),
-  );
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${d} ${MONTHS[m - 1]} ${y}`;
 }
 
 /**

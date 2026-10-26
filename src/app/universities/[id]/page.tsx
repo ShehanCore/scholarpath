@@ -61,10 +61,10 @@ export default async function UniversityPage({ params }: PageProps<"/universitie
         <div className="flex flex-col gap-[18px] rounded-card-lg bg-surface p-[clamp(18px,2.6vw,30px)]">
           <div className="flex flex-wrap items-end gap-4">
             <p className="m-0 font-heading text-[clamp(48px,6vw,72px)] leading-none font-bold tracking-[-.02em]">
-              {u.theRank ?? "To confirm"}
+              {u.rankDisplay ?? "To confirm"}
             </p>
             <p className="m-0 mb-2 max-w-[220px] text-[13px] text-muted">
-              {u.theRank ? "THE World University Rankings 2027" : RANK_TO_CONFIRM}
+              {u.rankDisplay ? "THE World University Rankings 2027" : RANK_TO_CONFIRM}
             </p>
           </div>
           <div>
@@ -132,7 +132,7 @@ export default async function UniversityPage({ params }: PageProps<"/universitie
                   href={universityHref(r.id)}
                   className="grid min-h-16 grid-cols-[88px_minmax(0,1fr)] items-center gap-2 rounded-bar border border-border bg-surface px-4 py-3 text-ink no-underline hover:border-navy hover:text-ink"
                 >
-                  <span className={`font-heading ${r.theRank ? "text-base font-bold" : "text-xs font-semibold text-muted"}`}>
+                  <span className={`font-heading ${r.rankDisplay ? "text-base font-bold" : "text-xs font-semibold text-muted"}`}>
                     {rankLabel(r)}
                   </span>
                   <span className="flex flex-col">

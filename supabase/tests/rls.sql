@@ -15,7 +15,10 @@ end $$;
 -- Seed facts
 do $$ begin
   assert (select count(*) from public.scholarships) = 26, '26 scholarships';
-  assert (select count(*) from public.universities where the_rank is not null) = 0, 'no ranks before the THE import';
+  assert (select count(*) from public.rankings) = 20, '20 ranks from the brief (2 are "to confirm")';
+  assert (select rank_display from public.current_rankings where university_id = 'ucl') = '=17', 'ties kept as published';
+  assert (select rank_sort from public.current_rankings where university_id = 'ucl') = 17, 'rank_sort is numeric';
+  assert not exists (select 1 from public.rankings where university_id = 'university-of-warwick'), 'unconfirmed rank has no row';
   assert (select university_id from public.scholarships where id = 'gates') = 'university-of-cambridge', 'Gates → Cambridge';
   assert (select human_check_note is not null from public.scholarships where id = 'manaaki'), 'Manaaki flagged';
   assert (select human_check_note is not null from public.scholarships where id = 'rtp'), '"Varies by university" flagged';
@@ -27,13 +30,24 @@ end $$;
 -- Constraints
 do $$ begin
   begin
-    update public.universities set the_rank = '17' where id = 'ucl';
-    raise exception 'rank without a source was accepted';
+    update public.rankings set rank_sort = 18 where university_id = 'ucl';
+    raise exception 'rank_sort that disagrees with rank_display was accepted';
   exception when check_violation then null;
   end;
   begin
-    update public.universities set the_rank = 'about 20', rank_source_url = 'x', rank_retrieved_at = now() where id = 'ucl';
+    update public.rankings set rank_display = 'about 20' where university_id = 'ucl';
     raise exception 'malformed rank was accepted';
+  exception when check_violation then null;
+  end;
+  begin
+    insert into public.rankings (university_id, country_code, rank_display, rank_sort, year, source)
+      values ('ucl', 'AU', '5', 5, 2026, 'x');
+    raise exception 'rank with the wrong country was accepted';
+  exception when foreign_key_violation then null;
+  end;
+  begin
+    insert into public.reopen_alerts (scholarship_id, email) values ('chevening', 'not-an-email');
+    raise exception 'malformed alert email was accepted';
   exception when check_violation then null;
   end;
   begin
@@ -62,6 +76,12 @@ do $$ begin
     raise exception 'anon read the verification log';
   exception when insufficient_privilege then null;
   end;
+  begin
+    perform count(*) from public.reopen_alerts;
+    raise exception 'anon read reopen alerts';
+  exception when insufficient_privilege then null;
+  end;
+  assert (select count(*) from public.current_rankings) = 20, 'anon reads current ranks';
 end $$;
 reset role;
 

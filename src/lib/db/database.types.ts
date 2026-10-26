@@ -3,6 +3,16 @@
 
 type LevelCode = "B" | "M" | "R" | "P";
 
+type RankingRow = {
+  university_id: string;
+  country_code: string;
+  rank_display: string;
+  rank_sort: number;
+  year: number;
+  source: string;
+  source_url: string | null;
+};
+
 type Table<Row> = {
   Row: Row;
   Insert: Partial<Row>;
@@ -21,10 +31,6 @@ export type Database = {
         city: string | null;
         country_code: string;
         levels: LevelCode[];
-        the_rank: string | null;
-        the_rank_sort: number | null;
-        rank_source_url: string | null;
-        rank_retrieved_at: string | null;
         website_url: string | null;
         staff_directory_url: string | null;
         updated_at: string;
@@ -57,8 +63,22 @@ export type Database = {
         updated_at: string;
       }>;
       scholarship_universities: Table<{ scholarship_id: string; university_id: string }>;
+      rankings: Table<RankingRow & { id: number; updated_at: string; updated_by: string | null }>;
+      reopen_alerts: Table<{
+        id: number;
+        scholarship_id: string;
+        email: string;
+        user_id: string | null;
+        consent_at: string;
+        token: string;
+        created_at: string;
+        notified_at: string | null;
+        unsubscribed_at: string | null;
+      }>;
     };
-    Views: Record<never, never>;
+    Views: {
+      current_rankings: { Row: RankingRow; Relationships: [] };
+    };
     Functions: Record<never, never>;
     Enums: {
       level_code: LevelCode;

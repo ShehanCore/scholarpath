@@ -22,7 +22,7 @@ export function destinationStats(
     .sort();
   return {
     openScholarships: live.length,
-    rankedUniversities: universities.filter((u) => u.countryCode === destination.code && u.theRank !== null).length,
+    rankedUniversities: universities.filter((u) => u.countryCode === destination.code && u.rankDisplay !== null).length,
     nextDeadline: live[0] ?? null,
   };
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Scholarship } from "@/lib/content/types";
 import { deadlineView, levelsText, scholarshipHref } from "@/lib/format";
 import { CompareButton } from "./compare-button";
+import { NotifyButton } from "./notify-button";
 import { SaveButton } from "./save-button";
 import { StatusChip } from "./ui/status-chip";
 import { Tag } from "./ui/tag";
@@ -33,7 +34,8 @@ export function ScholarshipCard({
   surface?: "outlined" | "plain";
 }) {
   const d = deadlineView(s, today);
-  const stacked = actions.length > 1;
+  // Closed scholarships also get "Notify me when it reopens", so their buttons need a row of their own.
+  const stacked = actions.length > 1 || d.closed;
   return (
     <article
       className={`flex flex-col gap-3 rounded-[22px] p-5 ${surface === "outlined" ? "border border-border" : ""} ${
@@ -71,6 +73,7 @@ export function ScholarshipCard({
           Closes <span className="font-semibold text-ink">{d.closeText}</span> · {d.daysText}
         </p>
         <div className="flex flex-wrap gap-1.5">
+          {d.closed && <NotifyButton id={s.id} name={s.name} />}
           {actions.includes("compare") && <CompareButton id={s.id} name={s.name} />}
           {actions.includes("save") && <SaveButton id={s.id} name={s.name} />}
           <Link

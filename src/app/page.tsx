@@ -104,7 +104,7 @@ export default async function Home() {
       title: "Browse by university",
       note: "THE World University Rankings 2027",
       items: universities.slice(0, UNIVERSITY_CHOOSER_LIMIT).map((u) => {
-        const rank = u.theRank ? `THE rank ${u.theRank}` : rankLabel(u);
+        const rank = u.rankDisplay ? `THE rank ${u.rankDisplay}` : rankLabel(u);
         return {
           label: u.name,
           sub: `${rank} · ${u.city ? `${u.city}, ` : ""}${destName(u.countryCode)}`,

@@ -1,30 +1,33 @@
 // Content queries. Read from Supabase when it's configured; otherwise from design/data (with the same
 // corrections), so pages build and run before a Supabase project exists.
 import { cacheLife, cacheTag } from "next/cache";
-import { designDestinations, designScholarships, designUniversities } from "@/lib/content/design-data";
-import type { Destination, Scholarship, University } from "@/lib/content/types";
+import {
+  designDestinations,
+  designRankings,
+  designScholarships,
+  designUniversities,
+  withRankings,
+} from "@/lib/content/design-data";
+import type { Destination, Ranking, Scholarship, University } from "@/lib/content/types";
 import { byRank } from "@/lib/rank";
 import { contentClient, supabaseConfigured } from "./client";
 import type { Database } from "./database.types";
 
 type Rows = Database["public"]["Tables"];
 
-function toUniversity(r: Rows["universities"]["Row"]): University {
+function toUniversity(r: Rows["universities"]["Row"]): Omit<University, "rankDisplay" | "rankSort"> {
   return {
     id: r.id,
     name: r.name,
     city: r.city,
     countryCode: r.country_code,
     levels: r.levels,
-    theRank: r.the_rank,
-    rankSourceUrl: r.rank_source_url,
-    rankRetrievedAt: r.rank_retrieved_at,
     websiteUrl: r.website_url,
     staffDirectoryUrl: r.staff_directory_url,
   };
 }
 
-function toScholarship(r: Rows["scholarships"]["Row"]): Scholarship {
+export function toScholarship(r: Rows["scholarships"]["Row"]): Scholarship {
   return {
     id: r.id,
     name: r.name,
@@ -67,15 +70,34 @@ export async function getDestinations(): Promise<Destination[]> {
   return rows.map((r) => ({ code: r.code, name: r.name, why: r.why, sortOrder: r.sort_order }));
 }
 
-/** All universities, ascending THE rank, unranked last. */
+/** Each university's current rank (latest edition). */
+export async function getRankings(): Promise<Ranking[]> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("content", "universities");
+  if (!supabaseConfigured) return designRankings();
+  return orThrow(await contentClient().from("current_rankings").select("*"), "rankings").map((r) => ({
+    universityId: r.university_id,
+    countryCode: r.country_code,
+    rankDisplay: r.rank_display,
+    rankSort: r.rank_sort,
+    year: r.year,
+    source: r.source,
+    sourceUrl: r.source_url,
+  }));
+}
+
+/** All universities with their current rank, ascending by rank, unranked last. */
 export async function getUniversities(): Promise<University[]> {
   "use cache";
   cacheLife("hours");
   cacheTag("content", "universities");
-  const list = supabaseConfigured
-    ? orThrow(await contentClient().from("universities").select("*"), "universities").map(toUniversity)
-    : designUniversities();
-  return list.sort(byRank);
+  if (!supabaseConfigured) return designUniversities().sort(byRank);
+  const [rows, rankings] = await Promise.all([
+    contentClient().from("universities").select("*"),
+    getRankings(),
+  ]);
+  return withRankings(orThrow(rows, "universities").map(toUniversity), rankings).sort(byRank);
 }
 
 export async function getUniversity(id: string): Promise<University | null> {

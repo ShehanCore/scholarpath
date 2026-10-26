@@ -1,4 +1,4 @@
-// Matching THE World University Rankings 2027 rows to ScholarPath universities.
+// Matching rows of a rankings CSV (names as THE publishes them) to ScholarPath universities.
 import { normaliseTheRank } from "../src/lib/rank";
 
 /** THE's institution name for universities whose ScholarPath name is a short form. */
