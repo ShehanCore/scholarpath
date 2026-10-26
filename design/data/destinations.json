@@ -1,0 +1,146 @@
+[
+  {
+    "code": "GB",
+    "name": "United Kingdom",
+    "openScholarships": 38,
+    "rankedUniversities": 10,
+    "why": "One-year master's degrees and a Graduate Route for post-study work.",
+    "bestRank": 1
+  },
+  {
+    "code": "US",
+    "name": "United States",
+    "openScholarships": 52,
+    "rankedUniversities": 10,
+    "why": "Broad research options and need-based aid at leading universities.",
+    "bestRank": 2
+  },
+  {
+    "code": "AU",
+    "name": "Australia",
+    "openScholarships": 31,
+    "rankedUniversities": 10,
+    "why": "Research-intensive universities and government awards for Sri Lankans.",
+    "bestRank": 34
+  },
+  {
+    "code": "CA",
+    "name": "Canada",
+    "openScholarships": 24,
+    "rankedUniversities": 10,
+    "why": "Co-op study, research funding and clear post-study pathways.",
+    "bestRank": 22
+  },
+  {
+    "code": "NZ",
+    "name": "New Zealand",
+    "openScholarships": 9,
+    "rankedUniversities": 1,
+    "why": "Small classes and development-focused government scholarships.",
+    "bestRank": 168
+  },
+  {
+    "code": "IE",
+    "name": "Ireland",
+    "openScholarships": 11,
+    "rankedUniversities": 4,
+    "why": "An English-speaking EU hub with a growing research sector.",
+    "bestRank": 171
+  },
+  {
+    "code": "DE",
+    "name": "Germany",
+    "openScholarships": 27,
+    "rankedUniversities": 10,
+    "why": "Low or no tuition at public universities, plus DAAD funding.",
+    "bestRank": 25
+  },
+  {
+    "code": "NL",
+    "name": "Netherlands",
+    "openScholarships": 14,
+    "rankedUniversities": 10,
+    "why": "Many English-taught programmes at research-led universities.",
+    "bestRank": 50
+  },
+  {
+    "code": "CH",
+    "name": "Switzerland",
+    "openScholarships": 8,
+    "rankedUniversities": 6,
+    "why": "Government excellence awards for doctoral research.",
+    "bestRank": 12
+  },
+  {
+    "code": "SE",
+    "name": "Sweden",
+    "openScholarships": 10,
+    "rankedUniversities": 5,
+    "why": "Funding for future leaders, with a strong sustainability focus.",
+    "bestRank": 55
+  },
+  {
+    "code": "JP",
+    "name": "Japan",
+    "openScholarships": 16,
+    "rankedUniversities": 6,
+    "why": "MEXT funding includes research-student periods before degrees.",
+    "bestRank": 27
+  },
+  {
+    "code": "KR",
+    "name": "South Korea",
+    "openScholarships": 13,
+    "rankedUniversities": 6,
+    "why": "GKS includes a year of Korean language training.",
+    "bestRank": 56
+  },
+  {
+    "code": "CN",
+    "name": "China",
+    "openScholarships": 19,
+    "rankedUniversities": 7,
+    "why": "Government scholarships at every level at major universities.",
+    "bestRank": 11
+  },
+  {
+    "code": "SG",
+    "name": "Singapore",
+    "openScholarships": 7,
+    "rankedUniversities": 2,
+    "why": "PhD awards at top-ranked universities and research institutes.",
+    "bestRank": 15
+  },
+  {
+    "code": "HK",
+    "name": "Hong Kong SAR",
+    "openScholarships": 8,
+    "rankedUniversities": 5,
+    "why": "Generous PhD fellowships at highly ranked universities.",
+    "bestRank": 33
+  },
+  {
+    "code": "MY",
+    "name": "Malaysia",
+    "openScholarships": 6,
+    "rankedUniversities": 3,
+    "why": "Close to home with lower living costs.",
+    "bestRank": 194
+  },
+  {
+    "code": "HU",
+    "name": "Hungary",
+    "openScholarships": 5,
+    "rankedUniversities": 1,
+    "why": "Stipendium Hungaricum funds study at all levels.",
+    "bestRank": 247
+  },
+  {
+    "code": "EU",
+    "name": "Multi-country / Europe-wide",
+    "openScholarships": 12,
+    "rankedUniversities": 0,
+    "why": "Joint degrees and doctoral networks across several countries.",
+    "bestRank": 9999
+  }
+]

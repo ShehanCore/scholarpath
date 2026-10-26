@@ -1,0 +1,355 @@
+{
+  "detailed": [
+    {
+      "rank": "1",
+      "name": "University of Oxford",
+      "city": "Oxford",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "5",
+      "name": "University of Cambridge",
+      "city": "Cambridge",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "8",
+      "name": "Imperial College London",
+      "city": "London",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=17",
+      "name": "UCL",
+      "city": "London",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=29",
+      "name": "University of Edinburgh",
+      "city": "Edinburgh",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "40",
+      "name": "King's College London",
+      "city": "London",
+      "country": "GB",
+      "levels": [
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "47",
+      "name": "London School of Economics (LSE)",
+      "city": "London",
+      "country": "GB",
+      "levels": [
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "60",
+      "name": "University of Manchester",
+      "city": "Manchester",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "82",
+      "name": "University of Bristol",
+      "city": "Bristol",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "83",
+      "name": "University of Glasgow",
+      "city": "Glasgow",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "Rank band: to confirm",
+      "name": "University of Warwick",
+      "city": "Coventry",
+      "country": "GB",
+      "levels": [
+        "Bachelor's",
+        "Master's"
+      ]
+    },
+    {
+      "rank": "Rank band: to confirm",
+      "name": "University of Leeds",
+      "city": "Leeds",
+      "country": "GB",
+      "levels": [
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=34",
+      "name": "University of Melbourne",
+      "city": "Melbourne",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=51",
+      "name": "University of Sydney",
+      "city": "Sydney",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "61",
+      "name": "Monash University",
+      "city": "Melbourne",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=73",
+      "name": "University of Queensland",
+      "city": "Brisbane",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=75",
+      "name": "UNSW Sydney",
+      "city": "Sydney",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "77",
+      "name": "Australian National University (ANU)",
+      "city": "Canberra",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=141",
+      "name": "Adelaide University",
+      "city": "Adelaide",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "152",
+      "name": "University of Technology Sydney (UTS)",
+      "city": "Sydney",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=161",
+      "name": "Macquarie University",
+      "city": "Sydney",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "PhD"
+      ]
+    },
+    {
+      "rank": "=173",
+      "name": "University of Western Australia (UWA)",
+      "city": "Perth",
+      "country": "AU",
+      "levels": [
+        "Bachelor's",
+        "Master's",
+        "MPhil & Postgraduate",
+        "PhD"
+      ]
+    }
+  ],
+  "namesByCountry": {
+    "US": [
+      "MIT",
+      "Princeton",
+      "Stanford",
+      "Harvard",
+      "Caltech",
+      "UC Berkeley",
+      "Yale",
+      "University of Pennsylvania",
+      "University of Chicago",
+      "Johns Hopkins"
+    ],
+    "AU": [
+      "University of Melbourne",
+      "University of Sydney",
+      "Monash",
+      "University of Queensland",
+      "UNSW Sydney",
+      "ANU",
+      "Adelaide University",
+      "UTS",
+      "Macquarie",
+      "UWA"
+    ],
+    "CA": [
+      "University of Toronto",
+      "McGill",
+      "UBC",
+      "McMaster",
+      "Alberta",
+      "Université de Montréal",
+      "Waterloo",
+      "Calgary",
+      "Ottawa",
+      "Western"
+    ],
+    "DE": [
+      "TU Munich",
+      "LMU Munich",
+      "Heidelberg",
+      "Bonn",
+      "RWTH Aachen",
+      "Humboldt Berlin",
+      "Charité Berlin",
+      "Tübingen",
+      "FU Berlin",
+      "Hamburg"
+    ],
+    "NL": [
+      "TU Delft",
+      "University of Amsterdam",
+      "Wageningen",
+      "Leiden",
+      "Groningen",
+      "Erasmus Rotterdam",
+      "Maastricht",
+      "Radboud",
+      "VU Amsterdam",
+      "TU Eindhoven"
+    ],
+    "CH": [
+      "ETH Zurich",
+      "EPFL",
+      "Basel",
+      "Bern",
+      "Lausanne",
+      "Geneva"
+    ],
+    "SG": [
+      "NUS",
+      "NTU"
+    ],
+    "HK": [
+      "HKU",
+      "CUHK",
+      "HKUST",
+      "CityU",
+      "PolyU"
+    ],
+    "JP": [
+      "University of Tokyo",
+      "Kyoto University",
+      "Tohoku",
+      "Osaka",
+      "Institute of Science Tokyo",
+      "Nagoya"
+    ],
+    "CN": [
+      "Tsinghua",
+      "Peking",
+      "Zhejiang",
+      "Fudan",
+      "Shanghai Jiao Tong",
+      "USTC",
+      "Nanjing"
+    ]
+  },
+  "note": "Ranks: THE World University Rankings 2027 (published Sept 2026). Show ties as \"=17\". Universities not in the brief list show \"Rank band: to confirm\"."
+}

@@ -1,0 +1,317 @@
+{
+  "qualities": [
+    "Fit",
+    "Evidence",
+    "Clarity",
+    "Feasibility",
+    "Impact"
+  ],
+  "committeeQuestion": {
+    "scholarship": "Why should we invest in this student?",
+    "grant": "Why should we invest in this project, and can the team deliver?"
+  },
+  "sections": [
+    {
+      "l": "A",
+      "t": "Eligibility & compliance",
+      "s": "Eligibility",
+      "q": "Fit",
+      "items": [
+        [
+          "I meet the nationality, residency, age, academic-level and subject requirements",
+          "Committees reject ineligible applications without reading them. Check each condition against the official call."
+        ],
+        [
+          "I meet the minimum GPA or class and the language-proficiency score",
+          "Minimum scores are usually hard cut-offs. Make sure your test date leaves time for results."
+        ],
+        [
+          "I've checked the eligible expenses and any funding restrictions",
+          "Knowing what the award will and won't pay for avoids budget errors and unrealistic plans."
+        ],
+        [
+          "I've confirmed the deadline, submission method and required file formats",
+          "Late or wrongly formatted submissions are a common, avoidable reason for rejection."
+        ]
+      ]
+    },
+    {
+      "l": "B",
+      "t": "Fit with the funder",
+      "s": "Funder fit",
+      "q": "Fit",
+      "items": [
+        [
+          "I understand the funder's mission, priorities and published selection criteria",
+          "Reviewers score against published criteria. Mirror their priorities with your evidence."
+        ],
+        [
+          "My application is tailored to this funder, with no generic statements",
+          "Generic statements signal low commitment. Name the funder's goals and show how you match them."
+        ],
+        [
+          "I can explain why this specific scholarship or grant fits my goals",
+          "A clear fit argument answers the core question: why invest in you, here, now."
+        ]
+      ]
+    },
+    {
+      "l": "C",
+      "t": "Academic record",
+      "s": "Academic record",
+      "q": "Evidence",
+      "items": [
+        [
+          "My transcripts, GPA, class ranking and awards are presented accurately",
+          "Inconsistencies between transcripts and claims undermine trust in the whole application."
+        ],
+        [
+          "My relevant qualifications and certifications are included",
+          "Relevant certifications strengthen the evidence that you are ready for the programme."
+        ]
+      ]
+    },
+    {
+      "l": "D",
+      "t": "Personal statement / statement of purpose",
+      "s": "Personal statement",
+      "q": "Clarity",
+      "items": [
+        [
+          "It explains why this opportunity matters to me",
+          "Motivation is usually weighted heavily for scholarships. Be specific rather than sentimental."
+        ],
+        [
+          "It connects my past experience, current goals and future plans into one clear story",
+          "A connected story helps reviewers remember you among hundreds of applicants."
+        ],
+        [
+          "It links the opportunity to my academic, research and career goals",
+          "Showing where this opportunity leads makes the investment case concrete."
+        ]
+      ]
+    },
+    {
+      "l": "E",
+      "t": "Leadership & experience",
+      "s": "Leadership",
+      "q": "Evidence",
+      "items": [
+        [
+          "I describe my contributions and results, not just a list of activities",
+          "Committees look for the impact you created, not memberships."
+        ],
+        [
+          "I give measurable achievements: outcomes, publications, competitions, presentations and documented contributions",
+          "Numbers and documented outputs make achievements verifiable."
+        ]
+      ]
+    },
+    {
+      "l": "F",
+      "t": "Research proposal",
+      "s": "Research proposal",
+      "q": "Feasibility",
+      "f": true,
+      "items": [
+        [
+          "The title and abstract summarise the question, approach and intended outcomes",
+          "Many reviewers form a view from the abstract alone. Make the question and approach obvious."
+        ],
+        [
+          "The background and rationale explain the problem and why it matters",
+          "A strong rationale shows the problem matters beyond your own interest."
+        ],
+        [
+          "I state a clear research gap and objectives I can achieve",
+          "A precise gap and achievable objectives show you understand the field."
+        ],
+        [
+          "I explain what is novel and significant",
+          "Originality is usually a top criterion for research funding."
+        ],
+        [
+          "The methodology is suitable and sound: design, data, tools, analysis and validation",
+          "Sound methods convince reviewers the project can produce valid results."
+        ],
+        [
+          "The work plan has realistic milestones and deliverables",
+          "Realistic milestones show you can deliver within the funding period."
+        ],
+        [
+          "The budget is itemised, justified and follows the funder's rules",
+          "Budgets that break funder rules often fail at the compliance stage."
+        ],
+        [
+          "I define the expected outcomes and a plan for sharing the findings",
+          "Funders want results used. A dissemination plan shows reach beyond the thesis."
+        ],
+        [
+          "I describe the team, supervision and institutional support",
+          "Supervision and institutional backing reassure reviewers that the work can be delivered."
+        ],
+        [
+          "I cover ethics approvals, risks, mitigation and sustainability",
+          "Unaddressed ethics or risk concerns can stop an otherwise strong proposal."
+        ]
+      ]
+    },
+    {
+      "l": "G",
+      "t": "Referees",
+      "s": "Referees",
+      "q": "Evidence",
+      "items": [
+        [
+          "My referees know my work and can give specific examples",
+          "Specific examples from referees carry more weight than general praise."
+        ],
+        [
+          "My referees have agreed to write and know the deadline",
+          "Late references can leave an application incomplete. Give referees at least three to four weeks."
+        ]
+      ]
+    },
+    {
+      "l": "H",
+      "t": "Impact",
+      "s": "Impact",
+      "q": "Impact",
+      "items": [
+        [
+          "I can explain the problem being addressed and who benefits",
+          "Committees fund change. Name the problem and the people who benefit."
+        ],
+        [
+          "I name tangible outputs: publications, datasets, prototypes or recommendations",
+          "Tangible outputs make impact measurable and credible."
+        ],
+        [
+          "I explain how I will use the knowledge and skills I gain",
+          "Showing how you will apply your skills answers the long-term value question."
+        ]
+      ]
+    },
+    {
+      "l": "I",
+      "t": "Documents & final review",
+      "s": "Final review",
+      "q": "Clarity",
+      "items": [
+        [
+          "All supporting documents are complete, accurate and correctly formatted",
+          "Missing or mislabelled documents can disqualify an application at screening."
+        ],
+        [
+          "Every claim is accurate and sources are acknowledged where required",
+          "Misstatements can lead to an offer being withdrawn, even after award."
+        ],
+        [
+          "A supervisor, mentor or experienced grant writer has reviewed my draft",
+          "An experienced reader spots gaps you can no longer see in your own draft."
+        ],
+        [
+          "The final application follows every funder instruction",
+          "Word limits, file names and formats are often checked before content is read."
+        ]
+      ]
+    }
+  ],
+  "committeeWeights": [
+    {
+      "factor": "Academic achievement",
+      "scholarship": "Often a major criterion",
+      "researchGrant": "Important; weight varies"
+    },
+    {
+      "factor": "Personal motivation",
+      "scholarship": "Usually very important",
+      "researchGrant": "Important"
+    },
+    {
+      "factor": "Research originality",
+      "scholarship": "Depends on the award",
+      "researchGrant": "Usually very important"
+    },
+    {
+      "factor": "Methodology & feasibility",
+      "scholarship": "Important for research awards",
+      "researchGrant": "Usually very important"
+    },
+    {
+      "factor": "Financial need",
+      "scholarship": "Important for need-based awards",
+      "researchGrant": "Relevant for some schemes"
+    },
+    {
+      "factor": "Leadership & community impact",
+      "scholarship": "Often valued",
+      "researchGrant": "Valued when aligned with grant goals"
+    },
+    {
+      "factor": "Budget & eligible costs",
+      "scholarship": "Often secondary or not required",
+      "researchGrant": "Usually essential"
+    },
+    {
+      "factor": "Supervisor / institutional support",
+      "scholarship": "Programme-dependent",
+      "researchGrant": "Often important or required"
+    }
+  ],
+  "cheveningDetail": {
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return economy flight to the UK",
+      "Arrival allowance",
+      "Visa application cost",
+      "Travel grant for one event"
+    ],
+    "elig": [
+      "I am a Sri Lankan citizen and will return to Sri Lanka for at least two years after the award",
+      "I hold an undergraduate degree equivalent to a UK 2:2 (Second Class Lower) or above",
+      "I have at least 2,800 hours of work experience gained after my undergraduate degree",
+      "I have applied to three different eligible UK master's courses",
+      "I can meet the English-language requirement by the published date"
+    ],
+    "docs": [
+      "Degree transcripts",
+      "Two references",
+      "Four essays (leadership, networking, why the UK, career plan)",
+      "Passport or national ID",
+      "English language certificate"
+    ],
+    "steps": [
+      [
+        "Applications open",
+        "4 Aug 2026, 11:00 UTC"
+      ],
+      [
+        "Applications close",
+        "6 Oct 2026, 11:00 UTC"
+      ],
+      [
+        "Eligibility checks and reading committees",
+        "Oct 2026 – Jan 2027"
+      ],
+      [
+        "Interview (if shortlisted)",
+        "Feb – Apr 2027"
+      ],
+      [
+        "Results",
+        "Mid-June 2027"
+      ],
+      [
+        "Deadline to hold an unconditional university offer",
+        "8 Jul 2027"
+      ],
+      [
+        "Study starts in the UK",
+        "Sep – Oct 2027"
+      ]
+    ],
+    "where": "Most UK universities, for an eligible one-year taught master's. Examples from the ranked list:"
+  }
+}

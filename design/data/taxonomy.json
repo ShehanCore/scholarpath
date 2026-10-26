@@ -1,0 +1,87 @@
+{
+  "levels": {
+    "B": "Bachelor's",
+    "M": "Master's",
+    "R": "MPhil & Postgraduate",
+    "P": "PhD"
+  },
+  "disciplines": [
+    {
+      "name": "Arts & Humanities",
+      "includes": "Languages, history, philosophy, arts"
+    },
+    {
+      "name": "Business & Economics",
+      "includes": "Business, finance, economics"
+    },
+    {
+      "name": "Clinical & Health",
+      "includes": "Medicine, Nursing, Public Health"
+    },
+    {
+      "name": "Computer Science",
+      "includes": "Including AI and Data Science"
+    },
+    {
+      "name": "Education",
+      "includes": "Teaching, policy, learning sciences"
+    },
+    {
+      "name": "Engineering & Technology",
+      "includes": "All engineering fields"
+    },
+    {
+      "name": "Law",
+      "includes": "LLB, LLM, legal studies"
+    },
+    {
+      "name": "Life Sciences",
+      "includes": "Including Biotechnology and Agriculture"
+    },
+    {
+      "name": "Physical Sciences",
+      "includes": "Incl. Mathematics, Environmental Science"
+    },
+    {
+      "name": "Psychology",
+      "includes": "Clinical, cognitive, organisational"
+    },
+    {
+      "name": "Social Sciences",
+      "includes": "Incl. Development Studies, Public Policy"
+    }
+  ],
+  "fundingTypes": [
+    "Fully funded",
+    "Partial",
+    "Tuition waiver",
+    "Stipend only",
+    "Research costs"
+  ],
+  "nationalities": [
+    "Sri Lanka",
+    "India",
+    "Bangladesh",
+    "Nepal",
+    "Pakistan",
+    "Any nationality"
+  ],
+  "statusChipColors": {
+    "Open": [
+      "#E3F1F2",
+      "#0A5A66"
+    ],
+    "Closing soon": [
+      "#FCEBC8",
+      "#6B4200"
+    ],
+    "Upcoming": [
+      "#E5EBF2",
+      "#0B2A4A"
+    ],
+    "Closed": [
+      "#ECEEF0",
+      "#4B5A6B"
+    ]
+  }
+}

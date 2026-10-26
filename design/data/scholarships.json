@@ -1,0 +1,794 @@
+[
+  {
+    "id": "chevening",
+    "name": "Chevening Scholarships",
+    "funder": "UK Government (FCDO)",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "GB",
+    "university": null,
+    "levels": [
+      "Master's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-08-04",
+    "closes": "2026-10-06",
+    "deadlineNote": "Closed 6 Oct 2026, 11:00 UTC. The 2028/29 round is expected to open in August 2027.",
+    "awards": "Not published per country",
+    "scope": "National · use at many universities",
+    "summary": "One-year master's at a UK university for future leaders, with flights, tuition and a living allowance.",
+    "officialUrl": "https://www.chevening.org/scholarships/",
+    "lastVerified": "22 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "commonwealth",
+    "name": "Commonwealth Master's and PhD Scholarships",
+    "funder": "Commonwealth Scholarship Commission",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "GB",
+    "university": null,
+    "levels": [
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": [
+      "Social Sciences",
+      "Life Sciences",
+      "Engineering & Technology",
+      "Clinical & Health"
+    ],
+    "disciplineLabel": "Development-focused subjects",
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-09-08",
+    "closes": "2026-10-20",
+    "deadlineNote": "CSC deadline 20 Oct 2026, 16:00 BST. You apply through a national nominating agency, which may close earlier.",
+    "awards": null,
+    "scope": "National · use at many universities",
+    "summary": null,
+    "officialUrl": "https://cscuk.fcdo.gov.uk/scholarships/",
+    "lastVerified": "22 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "gates",
+    "name": "Gates Cambridge Scholarship",
+    "funder": "University of Cambridge",
+    "funderType": "University",
+    "awardType": "Scholarship",
+    "destination": "GB",
+    "university": "University of Cambridge",
+    "levels": [
+      "Master's",
+      "MPhil & Postgraduate",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-09-11",
+    "closes": "2026-12-08",
+    "deadlineNote": "International round closes 8 Dec 2026 or 6 Jan 2027, depending on your course. Check the Cambridge course directory.",
+    "awards": "About 80 a year (about 55 in the international round)",
+    "scope": "University of Cambridge only",
+    "summary": null,
+    "officialUrl": "https://www.gatescambridge.org/",
+    "lastVerified": "22 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "clarendon",
+    "name": "Clarendon Fund",
+    "funder": "University of Oxford",
+    "funderType": "University",
+    "awardType": "Scholarship",
+    "destination": "GB",
+    "university": "University of Oxford",
+    "levels": [
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-09-01",
+    "closes": "2027-01-26",
+    "deadlineNote": "No separate application. Apply for your Oxford course by its December 2026 or January 2027 deadline (12 noon UK time) to be considered automatically.",
+    "awards": "200+ new awards a year",
+    "scope": "University of Oxford only",
+    "summary": null,
+    "officialUrl": "https://www.ox.ac.uk/clarendon",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "fulbright",
+    "name": "Fulbright Foreign Student Program",
+    "funder": "US Department of State",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "US",
+    "university": null,
+    "levels": [
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-02-01",
+    "closes": "2027-05-31",
+    "deadlineNote": "Expected dates. The US–Sri Lanka Fulbright Commission deadline is 31 May each year; interviews in July–August. Needs a 4-year degree and 1 year of work experience.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://fulbrightsrilanka.org/award/masters-scholarship/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "usneed",
+    "name": "Need-based aid for international undergraduates",
+    "funder": "MIT, Harvard, Princeton, Yale and others",
+    "funderType": "University",
+    "awardType": "Scholarship",
+    "destination": "US",
+    "university": null,
+    "levels": [
+      "Bachelor's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Need-based",
+    "covers": [
+      "Tuition and living costs based on family income"
+    ],
+    "opens": "2026-08-01",
+    "closes": "2027-01-01",
+    "deadlineNote": "Varies by university. Most regular-decision deadlines fall around 1–5 Jan 2027, with the CSS Profile and financial documents due near the same date. Check each university's financial aid page.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://educationusa.state.gov/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "ausawards",
+    "name": "Australia Awards Scholarships",
+    "funder": "Australian Government (DFAT)",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "AU",
+    "university": null,
+    "levels": [
+      "Master's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-02-01",
+    "closes": "2027-04-30",
+    "deadlineNote": "Expected dates. The Sri Lanka office says applications reopen in early 2027; last cycle ran 1 Feb – 30 Apr.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://australiaawardssrilanka.org/",
+    "lastVerified": "22 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "rtp",
+    "name": "Research Training Program scholarships",
+    "funder": "Australian Government via universities",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "AU",
+    "university": null,
+    "levels": [
+      "MPhil & Postgraduate",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Tuition + stipend",
+    "covers": [
+      "Tuition fees",
+      "Monthly stipend"
+    ],
+    "opens": "2026-07-01",
+    "closes": "2026-10-31",
+    "deadlineNote": "Varies by university. Each Australian university runs its own RTP rounds, often closing around 31 Oct for the next year. Check your target university's graduate research page.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.education.gov.au/research-block-grants/research-training-program",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "mgrs",
+    "name": "Melbourne Graduate Research Scholarship",
+    "funder": "University of Melbourne",
+    "funderType": "University",
+    "awardType": "Scholarship",
+    "destination": "AU",
+    "university": "University of Melbourne",
+    "levels": [
+      "MPhil & Postgraduate",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Tuition + stipend",
+    "covers": [
+      "Tuition fees",
+      "Monthly stipend"
+    ],
+    "opens": "2026-08-01",
+    "closes": "2026-10-31",
+    "deadlineNote": "No separate application. Apply for your research degree by 31 Oct 2026 (Semester 1) or 31 Mar 2027 (Semester 2). About 600 a year: A$39,500 stipend plus full fee offset.",
+    "awards": "About 600 a year",
+    "scope": "University of Melbourne only",
+    "summary": null,
+    "officialUrl": "https://scholarships.unimelb.edu.au/awards/graduate-research-scholarships",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "miu",
+    "name": "Melbourne International Undergraduate Scholarship",
+    "funder": "University of Melbourne",
+    "funderType": "University",
+    "awardType": "Scholarship",
+    "destination": "AU",
+    "university": "University of Melbourne",
+    "levels": [
+      "Bachelor's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Partial",
+    "covers": [
+      "Part of tuition fees"
+    ],
+    "opens": "2026-08-01",
+    "closes": "2026-11-30",
+    "deadlineNote": "No separate application. Apply for your bachelor's by 30 Nov 2026 for Semester 1, 2027. 20% fee remission from 2027 for citizens of listed lower-income countries; confirm Sri Lanka is on the list.",
+    "awards": "225 from 2027",
+    "scope": "University of Melbourne only",
+    "summary": null,
+    "officialUrl": "https://scholarships.unimelb.edu.au/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "pearson",
+    "name": "Lester B. Pearson International Scholarship",
+    "funder": "University of Toronto",
+    "funderType": "University",
+    "awardType": "Scholarship",
+    "destination": "CA",
+    "university": "University of Toronto",
+    "levels": [
+      "Bachelor's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-07-06",
+    "closes": "2026-11-06",
+    "deadlineNote": "Your school must nominate you by 9 Oct 2026 and you apply to U of T by 16 Oct. Pearson form and documents due 6 Nov 2026.",
+    "awards": "About 37 a year",
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://future.utoronto.ca/pearson/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "manaaki",
+    "name": "Manaaki New Zealand Scholarships",
+    "funder": "New Zealand Government",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "NZ",
+    "university": null,
+    "levels": [
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-03-01",
+    "closes": "2027-04-10",
+    "deadlineNote": "To confirm: the eligible country list changed recently. Check Sri Lanka is listed before applying. Expected window 1 Mar – 10 Apr 2027.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.nzscholarships.govt.nz/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "ireland",
+    "name": "Government of Ireland International Education Scholarships",
+    "funder": "Higher Education Authority",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "IE",
+    "university": null,
+    "levels": [
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Partial (one year)",
+    "covers": [
+      "One-year stipend",
+      "Tuition waiver for one year"
+    ],
+    "opens": "2027-01-29",
+    "closes": "2027-03-12",
+    "deadlineNote": "Expected dates, based on the 2026 call (29 Jan – 12 Mar, 5 pm Irish time). You need an offer from an Irish university before you apply.",
+    "awards": "About 60 a year",
+    "scope": null,
+    "summary": "Full tuition fee waiver plus a €10,000 stipend for one year of master's or PhD study in Ireland.",
+    "officialUrl": "https://hea.ie/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "daad",
+    "name": "DAAD Scholarships",
+    "funder": "German Academic Exchange Service",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "DE",
+    "university": null,
+    "levels": [
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-06-15",
+    "closes": "2026-10-15",
+    "deadlineNote": "Each EPOS course sets its own deadline; most for October 2027 entry fell between August and October 2026. Needs 2 years of work experience.",
+    "awards": null,
+    "scope": null,
+    "summary": "Development-related postgraduate courses in Germany: €992 a month for master's, €1,400 for doctoral, plus insurance and travel.",
+    "officialUrl": "https://www.daad.de/epos",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "holland",
+    "name": "NL Scholarship (formerly Holland Scholarship)",
+    "funder": "Dutch Government and universities",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "NL",
+    "university": null,
+    "levels": [
+      "Bachelor's",
+      "Master's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Partial",
+    "covers": [
+      "Part of tuition fees"
+    ],
+    "opens": "2026-11-01",
+    "closes": "2027-02-01",
+    "deadlineNote": "No national deadline: each university sets its own, often 1 Feb 2027 and some as late as 1 May. One-time €5,000 in your first year.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.studyinnl.org/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "swiss",
+    "name": "Swiss Government Excellence Scholarships",
+    "funder": "Swiss Confederation (FCS)",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "CH",
+    "university": null,
+    "levels": [
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-08-20",
+    "closes": "2026-11-30",
+    "deadlineNote": "Deadline is set per country — confirm Sri Lanka's date on the SERI list. A Swiss professor must agree to supervise you before you apply. CHF 2,450 a month.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.sbfi.admin.ch/scholarships_eng",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "si",
+    "name": "Swedish Institute Scholarships for Global Professionals",
+    "funder": "Swedish Institute",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "SE",
+    "university": null,
+    "levels": [
+      "Master's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-02-08",
+    "closes": "2027-02-24",
+    "deadlineNote": "First apply to an eligible master's through University Admissions by 15 Jan 2027. SI portal open 8–24 Feb 2027, closing 14:59 CET. Results 22 Apr 2027.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://si.se/en/apply/scholarships/swedish-institute-scholarships-for-global-professionals/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "mext",
+    "name": "MEXT (Japanese Government) Scholarship",
+    "funder": "Japanese Government",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "JP",
+    "university": null,
+    "levels": [
+      "Bachelor's",
+      "Master's",
+      "MPhil & Postgraduate",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-04-20",
+    "closes": "2027-05-18",
+    "deadlineNote": "Expected dates. Sri Lankans apply online through the Ministry of Higher Education portal; the 2027 round closed 18 May 2026.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://foreignscholarships.mohe.gov.lk/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "gks",
+    "name": "Global Korea Scholarship (GKS)",
+    "funder": "Korean Government (NIIED)",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "KR",
+    "university": null,
+    "levels": [
+      "Bachelor's",
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-02-12",
+    "closes": "2027-02-25",
+    "deadlineNote": "Expected dates for the graduate round (last ran 12–25 Feb). The 2027 undergraduate embassy round closed 30 Sep 2026.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.studyinkorea.go.kr/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "csc",
+    "name": "Chinese Government Scholarship",
+    "funder": "China Scholarship Council",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "CN",
+    "university": null,
+    "levels": [
+      "Bachelor's",
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-11-15",
+    "closes": "2027-03-31",
+    "deadlineNote": "Expected dates. Sri Lankan undergraduates apply through the Ministry of Higher Education portal (last round closed 6 Dec 2025). For master's and PhD, apply through the embassy or a university, roughly Jan – Apr 2027, at campuschina.org. You need a pre-admission letter.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.campuschina.org/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "schwarzman",
+    "name": "Schwarzman Scholars",
+    "funder": "Schwarzman Scholars (at Tsinghua)",
+    "funderType": "Foundation",
+    "awardType": "Scholarship",
+    "destination": "CN",
+    "university": null,
+    "levels": [
+      "Master's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2027-04-08",
+    "closes": "2027-09-09",
+    "deadlineNote": "Expected window for the Class of 2028–29 (last cycle 8 Apr – 9 Sep, 3 pm EDT). You must be 18–28 on 1 Aug 2028.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.schwarzmanscholars.org/admissions/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "singa",
+    "name": "Singapore International Graduate Award (SINGA)",
+    "funder": "A*STAR, NUS, NTU, SUTD",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "SG",
+    "university": null,
+    "levels": [
+      "PhD"
+    ],
+    "disciplines": [
+      "Engineering & Technology",
+      "Computer Science",
+      "Life Sciences",
+      "Physical Sciences"
+    ],
+    "disciplineLabel": "Science & engineering",
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-06-02",
+    "closes": "2026-12-01",
+    "deadlineNote": "To confirm on A*STAR: 1 Dec 2026 is widely reported for the August 2027 intake (1 Jun 2027 for January 2028, A*STAR and NTU only).",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.a-star.edu.sg/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "hkpfs",
+    "name": "Hong Kong PhD Fellowship Scheme",
+    "funder": "Research Grants Council",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "HK",
+    "university": null,
+    "levels": [
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-09-01",
+    "closes": "2026-12-01",
+    "deadlineNote": "RGC initial application by 1 Dec 2026, 12:00 noon HKT; full university application the same day by 11:59 pm. HK$344,400 a year.",
+    "awards": "400 fellowships",
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://www.ugc.edu.hk/eng/rgc/hkphd/",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "hungaricum",
+    "name": "Stipendium Hungaricum",
+    "funder": "Tempus Public Foundation",
+    "funderType": "Government",
+    "awardType": "Scholarship",
+    "destination": "HU",
+    "university": null,
+    "levels": [
+      "Bachelor's",
+      "Master's",
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Tuition + stipend",
+    "covers": [
+      "Tuition fees",
+      "Monthly stipend"
+    ],
+    "opens": "2026-11-17",
+    "closes": "2027-01-15",
+    "deadlineNote": "Expected dates. Apply online and through your country's sending partner, which nominates you.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://stipendiumhungaricum.hu/",
+    "lastVerified": "22 Oct 2026",
+    "verificationStatus": "expected_or_to_confirm"
+  },
+  {
+    "id": "erasmus",
+    "name": "Erasmus Mundus Joint Master's",
+    "funder": "European Union",
+    "funderType": "Multi-country programme",
+    "awardType": "Scholarship",
+    "destination": "EU",
+    "university": null,
+    "levels": [
+      "Master's"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Fully funded",
+    "covers": [
+      "Full tuition fees",
+      "Monthly living allowance",
+      "Return flights",
+      "Health insurance"
+    ],
+    "opens": "2026-10-01",
+    "closes": "2027-01-15",
+    "deadlineNote": "Each programme sets its own deadline, usually between October and January. Scholarship deadlines can be earlier than admission deadlines.",
+    "awards": null,
+    "scope": null,
+    "summary": "Study one master's across two or more European countries. Covers tuition and insurance, plus €1,400 a month for up to 24 months.",
+    "officialUrl": "https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en",
+    "lastVerified": "22 Oct 2026",
+    "verificationStatus": "checked"
+  },
+  {
+    "id": "msca",
+    "name": "Marie Skłodowska-Curie Doctoral Networks",
+    "funder": "European Union",
+    "funderType": "Multi-country programme",
+    "awardType": "Research grant",
+    "destination": "EU",
+    "university": null,
+    "levels": [
+      "PhD"
+    ],
+    "disciplines": "Open to all",
+    "disciplineLabel": null,
+    "funding": "Salaried position",
+    "covers": [
+      "Salary with social security",
+      "Mobility allowance",
+      "Research and training costs"
+    ],
+    "opens": "2027-05-01",
+    "closes": "2028-06-30",
+    "deadlineNote": "You don't apply to the EU call: its 24 Nov 2026 deadline is for university consortia. Funded networks advertise salaried PhD vacancies on EURAXESS from mid-2027, each with its own deadline. Any nationality; no PhD at recruitment.",
+    "awards": null,
+    "scope": null,
+    "summary": null,
+    "officialUrl": "https://euraxess.ec.europa.eu/jobs/search",
+    "lastVerified": "26 Oct 2026",
+    "verificationStatus": "checked"
+  }
+]
