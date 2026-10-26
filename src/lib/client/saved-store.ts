@@ -11,3 +11,8 @@ export function toggleSaved(id: string) {
   const ids = store.read();
   store.write(ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]);
 }
+
+/** Replace the whole list (account sync). */
+export function replaceSaved(ids: string[]) {
+  store.write(ids);
+}

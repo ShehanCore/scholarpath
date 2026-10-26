@@ -141,20 +141,47 @@ create trigger scholarships_updated_at before update on public.scholarships
 create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   name text not null default '',
+  role text not null default 'Student' check (role in ('Student', 'Parent', 'Adviser / counsellor')),
+  -- E.164, e.g. +94771234567. Optional; only used for WhatsApp when wa_opt_in is true.
   whatsapp text check (whatsapp is null or whatsapp ~ '^\+[1-9]\d{6,14}$'),
-  -- Explicit opt-in only; never defaulted on.
+  -- Explicit opt-in only; never defaulted on. Timestamps are set by profiles_whatsapp_consent.
   wa_opt_in boolean not null default false,
   wa_opt_in_at timestamptz,
   wa_opt_out_at timestamptz,
-  level public.level_code,
+  -- Study profile (registration step 2), used to suggest scholarships and pre-fill filters.
+  levels public.level_code[] not null default '{}',
   disciplines text[] not null default '{}',
+  destinations text[] not null default '{}',
   nationality text not null default 'Sri Lanka',
+  intake text check (intake is null or intake in ('2027', '2028', 'Not sure')),
+  -- Deadline reminders for saved scholarships (email; WhatsApp also needs wa_opt_in).
+  deadline_reminders boolean not null default true,
+  terms_accepted_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   check (not wa_opt_in or (whatsapp is not null and wa_opt_in_at is not null))
 );
 create trigger profiles_updated_at before update on public.profiles
   for each row execute function public.set_updated_at();
+
+-- Records when WhatsApp consent is given or withdrawn (PDPA), whoever changes the flag.
+create or replace function public.profiles_whatsapp_consent() returns trigger
+language plpgsql set search_path = '' as $$
+begin
+  if new.wa_opt_in and (tg_op = 'INSERT' or not old.wa_opt_in) then
+    new.wa_opt_in_at = now();
+    new.wa_opt_out_at = null;
+  elsif not new.wa_opt_in and tg_op = 'UPDATE' and old.wa_opt_in then
+    new.wa_opt_out_at = now();
+  end if;
+  if new.whatsapp is null then
+    new.wa_opt_in = false;
+  end if;
+  return new;
+end;
+$$;
+create trigger profiles_whatsapp_consent before insert or update on public.profiles
+  for each row execute function public.profiles_whatsapp_consent();
 
 create table public.saved (
   user_id uuid not null default auth.uid() references auth.users (id) on delete cascade,
@@ -300,8 +327,23 @@ grant usage on all sequences in schema public to authenticated, service_role;
 -- A profile row for every new account (filled in by the registration steps).
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = '' as $$
+declare
+  meta jsonb := coalesce(new.raw_user_meta_data, '{}');
+  wa text := meta ->> 'whatsapp';
 begin
-  insert into public.profiles (id, name) values (new.id, coalesce(new.raw_user_meta_data ->> 'name', ''));
+  -- Registration step 1 sends these as sign-up metadata. Anything malformed is dropped, not stored.
+  if wa is not null and wa !~ '^\+[1-9]\d{6,14}$' then
+    wa := null;
+  end if;
+  insert into public.profiles (id, name, role, whatsapp, wa_opt_in, terms_accepted_at)
+  values (
+    new.id,
+    left(coalesce(meta ->> 'name', meta ->> 'full_name', ''), 200),
+    case when meta ->> 'role' in ('Student', 'Parent', 'Adviser / counsellor') then meta ->> 'role' else 'Student' end,
+    wa,
+    wa is not null and coalesce((meta ->> 'wa_opt_in')::boolean, false),
+    case when coalesce((meta ->> 'terms')::boolean, false) then now() end
+  );
   return new;
 end;
 $$;

@@ -63,6 +63,58 @@ export type Database = {
         updated_at: string;
       }>;
       scholarship_universities: Table<{ scholarship_id: string; university_id: string }>;
+      profiles: Table<{
+        id: string;
+        name: string;
+        role: "Student" | "Parent" | "Adviser / counsellor";
+        whatsapp: string | null;
+        wa_opt_in: boolean;
+        wa_opt_in_at: string | null;
+        wa_opt_out_at: string | null;
+        levels: LevelCode[];
+        disciplines: string[];
+        destinations: string[];
+        nationality: string;
+        intake: "2027" | "2028" | "Not sure" | null;
+        deadline_reminders: boolean;
+        terms_accepted_at: string | null;
+        created_at: string;
+        updated_at: string;
+      }>;
+      saved: Table<{ user_id: string; scholarship_id: string; created_at: string }>;
+      reminders: Table<{ user_id: string; scholarship_id: string; enabled: boolean; created_at: string }>;
+      outreach: Table<{
+        id: number;
+        user_id: string;
+        scholarship_id: string | null;
+        recipient_type: "admissions" | "international" | "professor";
+        university_name: string | null;
+        recipient_name: string | null;
+        recipient_email: string | null;
+        purpose: "eligibility" | "supervision" | "follow_up";
+        subject: string;
+        sent_at: string;
+        status: "awaiting" | "replied" | "followed_up";
+        followed_up_at: string | null;
+        replied_at: string | null;
+      }>;
+      eligibility_answers: Table<{ user_id: string; scholarship_id: string; answers: Record<string, boolean>; updated_at: string }>;
+      checklists: Table<{
+        id: number;
+        user_id: string;
+        scholarship_id: string | null;
+        application_type: "scholarship" | "grant";
+        level: LevelCode | null;
+        created_at: string;
+        updated_at: string;
+      }>;
+      checklist_items: Table<{
+        checklist_id: number;
+        item_id: string;
+        state: "done" | "needs" | "na" | null;
+        note: string | null;
+        updated_at: string;
+      }>;
       rankings: Table<RankingRow & { id: number; updated_at: string; updated_by: string | null }>;
       reopen_alerts: Table<{
         id: number;

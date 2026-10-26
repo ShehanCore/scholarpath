@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { displayName, initials, useAuthUser } from "@/lib/client/auth-store";
 import { useSaved } from "@/lib/client/saved-store";
 import { isActive, mainNav, savedHref, type NavItem } from "@/lib/site-nav";
 
@@ -32,6 +33,8 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   const savedLabel = `Saved (${useSaved().length})`;
+  const user = useAuthUser();
+  const name = user ? displayName(user) : "";
   const savedActive = isActive(pathname, [savedHref]);
   const navItems: NavItem[] = [...mainNav, { label: savedLabel, href: savedHref, match: [savedHref] }];
 
@@ -41,18 +44,34 @@ export function SiteHeader() {
         {/* Wide: account row + white nav bar + gold CTA */}
         <div className="hidden min-w-0 flex-1 flex-col gap-1.5 nav:flex">
           <div className="flex h-11 items-center justify-end gap-1">
-            <Link
-              href="/login"
-              className="flex h-11 items-center whitespace-nowrap rounded-chip px-3 text-xs font-bold uppercase tracking-[.05em] text-ink no-underline hover:bg-ink/6 hover:text-ink"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/register"
-              className="ml-1 flex h-11 items-center whitespace-nowrap rounded-pill border-[1.5px] border-ink px-3.5 text-xs font-bold uppercase tracking-[.05em] text-ink no-underline hover:bg-ink hover:text-white"
-            >
-              Register
-            </Link>
+            {user ? (
+              <Link
+                href="/account"
+                aria-label="My account"
+                className="flex h-11 items-center gap-2 rounded-chip pr-3 pl-1 text-xs font-bold uppercase tracking-[.05em] text-ink no-underline hover:bg-ink/6 hover:text-ink"
+              >
+                <span aria-hidden="true" className="flex size-7 items-center justify-center rounded-[8px] bg-teal text-xs font-bold tracking-normal text-white">
+                  {initials(name)}
+                </span>
+                {name.split(" ")[0]}
+              </Link>
+            ) : (
+              // Hidden until the session is known, so signed-in visitors don't see Log in flash.
+              <span className={`flex items-center gap-1 ${user === undefined ? "invisible" : ""}`}>
+                <Link
+                  href="/login"
+                  className="flex h-11 items-center whitespace-nowrap rounded-chip px-3 text-xs font-bold uppercase tracking-[.05em] text-ink no-underline hover:bg-ink/6 hover:text-ink"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/register"
+                  className="ml-1 flex h-11 items-center whitespace-nowrap rounded-pill border-[1.5px] border-ink px-3.5 text-xs font-bold uppercase tracking-[.05em] text-ink no-underline hover:bg-ink hover:text-white"
+                >
+                  Register
+                </Link>
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2.5">
             <div className="flex h-14 min-w-0 flex-1 items-center gap-2 overflow-hidden rounded-bar bg-surface pl-4 pr-2">
@@ -99,6 +118,15 @@ export function SiteHeader() {
           <Image src="/assets/logo-v3.png" alt="" width={117} height={20} priority className="block h-5 w-auto max-w-full" />
         </Link>
         <div className="flex-1 nav:hidden" />
+        {user && (
+          <Link
+            href="/account"
+            aria-label="My account"
+            className="flex size-12 shrink-0 items-center justify-center rounded-segment bg-teal text-sm font-bold text-white no-underline hover:text-white nav:hidden"
+          >
+            {initials(name)}
+          </Link>
+        )}
         <Link
           href={savedHref}
           aria-current={savedActive ? "page" : undefined}
@@ -126,20 +154,35 @@ export function SiteHeader() {
       {menuOpen && (
         <div id="mobile-menu" className="container-page mt-2.5 nav:hidden">
           <nav aria-label="Main" className="flex flex-col rounded-card-md bg-surface p-2">
-            <div className="mb-1 grid grid-cols-2 gap-2 border-b border-border px-1 pb-2 pt-1">
+            {user ? (
               <Link
-                href="/login"
-                className="flex min-h-12 items-center justify-center rounded-pill border-[1.5px] border-ink bg-surface text-[13px] font-extrabold uppercase tracking-[.05em] text-ink no-underline hover:text-ink"
+                href="/account"
+                className="mb-1 flex min-h-14 items-center gap-3 border-b border-border px-2.5 pt-1 pb-2 text-left no-underline"
               >
-                Log in
+                <span aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-input bg-teal text-sm font-bold text-white">
+                  {initials(name)}
+                </span>
+                <span className="flex flex-col">
+                  <span className="text-[15px] font-bold text-ink">{name}</span>
+                  <span className="text-[13px] font-medium text-muted">My account</span>
+                </span>
               </Link>
-              <Link
-                href="/register"
-                className="flex min-h-12 items-center justify-center rounded-pill bg-ink text-[13px] font-extrabold uppercase tracking-[.05em] text-white no-underline hover:text-white"
-              >
-                Register
-              </Link>
-            </div>
+            ) : (
+              <div className="mb-1 grid grid-cols-2 gap-2 border-b border-border px-1 pb-2 pt-1">
+                <Link
+                  href="/login"
+                  className="flex min-h-12 items-center justify-center rounded-pill border-[1.5px] border-ink bg-surface text-[13px] font-extrabold uppercase tracking-[.05em] text-ink no-underline hover:text-ink"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/register"
+                  className="flex min-h-12 items-center justify-center rounded-pill bg-ink text-[13px] font-extrabold uppercase tracking-[.05em] text-white no-underline hover:text-white"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
             <ul className="m-0 flex list-none flex-col p-0">
               {navItems.map((n) => {
                 const active = isActive(pathname, n.match);

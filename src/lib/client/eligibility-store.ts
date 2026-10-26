@@ -50,3 +50,18 @@ export function toggleEligibility(scholarshipId: string, index: number) {
   } catch {}
   listeners.forEach((l) => l());
 }
+
+const noAnswers: Answers = {};
+
+/** Every scholarship's answers (account sync). */
+export function useAllEligibility(): Answers {
+  return useSyncExternalStore(subscribe, read, () => noAnswers);
+}
+
+export function replaceEligibility(all: Answers) {
+  cache = all;
+  try {
+    localStorage.setItem(KEY, JSON.stringify(all));
+  } catch {}
+  listeners.forEach((l) => l());
+}

@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
-import { PlaceholderPage } from "@/components/placeholder-page";
+import { Suspense } from "react";
+import { AuthCard } from "@/components/auth/auth-ui";
+import { LoginForm } from "@/components/auth/login-form";
 
-export const metadata: Metadata = { title: "Log in" };
+export const metadata: Metadata = { title: "Log in", robots: { index: false, follow: true } };
 
-export default function Page() {
-  return <PlaceholderPage title="Log in" phase={7} />;
+export default function LoginPage() {
+  return (
+    <AuthCard title="Log in">
+      <Suspense>
+        <LoginForm />
+      </Suspense>
+    </AuthCard>
+  );
 }

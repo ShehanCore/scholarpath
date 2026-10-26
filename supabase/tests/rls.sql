@@ -2,14 +2,23 @@
 -- Users: A = 0000…000a, B = 0000…000b.
 
 insert into auth.users (id, raw_user_meta_data) values
-  ('00000000-0000-0000-0000-00000000000a', '{"name": "Amaya Perera"}'),
-  ('00000000-0000-0000-0000-00000000000b', '{}');
+  ('00000000-0000-0000-0000-00000000000a', '{"name": "Amaya Perera", "role": "Student", "whatsapp": "+94771234567", "wa_opt_in": true, "terms": true}'),
+  ('00000000-0000-0000-0000-00000000000b', '{"whatsapp": "077 123", "wa_opt_in": true, "role": "Admin"}'),
+  ('00000000-0000-0000-0000-00000000000c', '{"name": "Kasun", "whatsapp": "+94771112222"}');
 
 do $$ begin
   assert (select name from public.profiles where id = '00000000-0000-0000-0000-00000000000a') = 'Amaya Perera',
     'new user gets a profile with their name';
-  assert (select wa_opt_in from public.profiles where id = '00000000-0000-0000-0000-00000000000b') = false,
-    'WhatsApp opt-in defaults to off';
+  assert (select wa_opt_in from public.profiles where id = '00000000-0000-0000-0000-00000000000c') = false,
+    'WhatsApp opt-in defaults to off, even with a number';
+  assert (select wa_opt_in and wa_opt_in_at is not null and whatsapp = '+94771234567' and terms_accepted_at is not null
+          from public.profiles where id = '00000000-0000-0000-0000-00000000000a'), 'sign-up metadata fills the profile and consent time';
+  assert (select whatsapp is null and not wa_opt_in and role = 'Student' from public.profiles
+          where id = '00000000-0000-0000-0000-00000000000b'), 'malformed number and role are dropped';
+  update public.profiles set wa_opt_in = false where id = '00000000-0000-0000-0000-00000000000a';
+  assert (select wa_opt_out_at is not null from public.profiles where id = '00000000-0000-0000-0000-00000000000a'), 'opt-out is timestamped';
+  update public.profiles set wa_opt_in = true where id = '00000000-0000-0000-0000-00000000000a';
+  assert (select wa_opt_out_at is null and wa_opt_in_at is not null from public.profiles where id = '00000000-0000-0000-0000-00000000000a'), 'opt back in';
 end $$;
 
 -- Seed facts
@@ -50,11 +59,8 @@ do $$ begin
     raise exception 'malformed alert email was accepted';
   exception when check_violation then null;
   end;
-  begin
-    update public.profiles set wa_opt_in = true where id = '00000000-0000-0000-0000-00000000000a';
-    raise exception 'WhatsApp opt-in without a number was accepted';
-  exception when check_violation then null;
-  end;
+  update public.profiles set wa_opt_in = true where id = '00000000-0000-0000-0000-00000000000b';
+  assert (select not wa_opt_in from public.profiles where id = '00000000-0000-0000-0000-00000000000b'), 'no opt-in without a number';
 end $$;
 
 -- anon: reads content, nothing else
@@ -93,7 +99,7 @@ insert into public.checklists (scholarship_id, level) values ('chevening', 'M');
 insert into public.checklist_items (checklist_id, item_id, state)
   select id, 'A1', 'done' from public.checklists where scholarship_id = 'chevening';
 insert into public.outreach (recipient_type, purpose, subject) values ('admissions', 'eligibility', 'Question');
-update public.profiles set whatsapp = '+94771234567', wa_opt_in = true, wa_opt_in_at = now();
+update public.profiles set levels = '{M,P}', destinations = '{GB}', intake = '2027';
 do $$ begin
   assert (select count(*) from public.saved) = 2, 'A sees own saved';
   assert (select count(*) from public.profiles) = 1, 'A sees only own profile';

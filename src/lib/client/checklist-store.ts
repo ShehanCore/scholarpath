@@ -62,3 +62,8 @@ export function updateChecklist(key: string, fn: (c: Checklist) => Checklist) {
   const all = read();
   write({ ...all, [key]: fn(all[key] ?? blankChecklist()) });
 }
+
+/** Replace every stored checklist (account sync; {} clears them on sign-out). */
+export function replaceChecklists(all: All) {
+  write(all);
+}
