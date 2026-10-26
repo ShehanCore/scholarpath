@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* Design tokens — names follow design/README.md "Design tokens". Use these, never raw hex, in components. */
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 860px;
+  --breakpoint-lg: 1200px;
+  /* Full desktop nav. Narrower than this it doesn't fit (the prototype's 1200px clips "Saved"). */
+  --breakpoint-nav: 1280px;
+  --breakpoint-xl: 1440px;
+
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-ink: #10202f;
+  --color-muted: #4b5a6b;
+  --color-navy: #0b2a4a;
+  --color-teal: #0e7383;
+  --color-teal-hover: #0b2a4a;
+  --color-gold: #f2ae3d;
+  --color-gold-hover: #e89e22;
+  --color-gold-pressed: #c98a1b;
+  --color-on-gold: #0b2a4a;
+  --color-gold-on-dark: #f2c46d;
+  --color-on-dark-muted: #d3dde8;
+
+  --color-page: #edeff2;
+  --color-surface: #ffffff;
+  --color-surface-2: #f4f5f7;
+  --color-surface-3: #f7f8fa;
+  --color-surface-4: #f1f3f5;
+  --color-disabled: #e7eaee;
+  --color-border: #e1e5ea;
+  --color-border-strong: #d5dbe1;
+  --color-border-input: #cbd2d9;
+
+  --color-tint-bg: #e3f1f2;
+  --color-tint-fg: #0a5a66;
+  --color-verified-bg: #e3f1ef;
+  --color-verified-fg: #0b5560;
+  --color-warning-bg: #fcf1dc;
+  --color-warning-fg: #5c3b00;
+  --color-closing-bg: #fcebc8;
+  --color-closing-fg: #6b4200;
+  --color-upcoming-bg: #e5ebf2;
+  --color-upcoming-fg: #0b2a4a;
+  --color-closed-bg: #eceef0;
+  --color-closed-fg: #4b5a6b;
+  --color-error: #b3261e;
+
+  --font-heading: var(--font-urbanist), system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --radius-chip-sm: 7px;
+  --radius-chip: 10px;
+  --radius-input: 12px;
+  --radius-segment: 14px;
+  --radius-bar: 16px;
+  --radius-card-sm: 18px;
+  --radius-card-md: 20px;
+  --radius-card: 24px;
+  --radius-card-lg: 28px;
+  --radius-pill: 999px;
+
+  --shadow-dropdown: 0 12px 40px rgba(11, 42, 74, 0.16);
+  --shadow-modal: 0 30px 80px rgba(16, 32, 47, 0.28);
+  --shadow-segment: 0 1px 3px rgba(16, 32, 47, 0.18);
+}
+
+@utility container-page {
+  max-width: 1380px;
+  margin-inline: auto;
+  padding-inline: clamp(12px, 3vw, 32px);
+}
+
+@utility section-pad {
+  padding: clamp(20px, 3.5vw, 36px);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--color-teal);
+  }
+  a:hover {
+    color: var(--color-teal-hover);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-teal);
+    outline-offset: 2px;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+}
+
+@media print {
+  [data-noprint] {
+    display: none !important;
+  }
+}

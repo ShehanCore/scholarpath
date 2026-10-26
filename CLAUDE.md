@@ -18,7 +18,7 @@ Stack: Next.js (App Router, TypeScript strict), Tailwind mapped to the README to
 - Copy in `ScholarPath.dc.html` is final. Reuse it verbatim; don't rewrite microcopy. The exception is funding copy, which is removed (see above).
 
 ## Accessibility (WCAG 2.2 AA)
-- Mobile-first: build at 390px first, then scale to 1440px (content max-width 1380px, side padding `clamp(12px,3vw,32px)`). Header collapses to logo + menu below 1100px.
+- Mobile-first: build at 390px first, then scale to 1440px (content max-width 1380px, side padding `clamp(12px,3vw,32px)`). Header collapses to logo + menu below 1280px (the full nav doesn't fit narrower).
 - **Every interactive target ≥ 44×44px** (most controls 44–50px). This includes chips, toggles, icon buttons, close buttons and calendar days.
 - `:focus-visible` outline: 3px `#0E7383`, offset 2px. Never remove focus styles.
 - Contrast ≥ 4.5:1 for text (3:1 for large text and UI boundaries). Status is never conveyed by colour alone (chip text always present).
@@ -27,7 +27,7 @@ Stack: Next.js (App Router, TypeScript strict), Tailwind mapped to the README to
 - Respect `prefers-reduced-motion` and Save-Data: no autoplay video, poster image only.
 
 ## Engineering rules
-- Design tokens live in `tailwind.config.ts` / CSS variables, named after README tokens. No raw hex values in components.
+- Design tokens live in the `@theme` block of `src/app/globals.css` (Tailwind v4), named after README tokens. No raw hex values in components.
 - Fonts via `next/font/google`: Urbanist (headings), Manrope (body/UI), IBM Plex Mono (data/meta). `tabular-nums` for ranks, dates, amounts.
 - Icons: Lucide, line style.
 - Deadline status comes from one shared `statusOf()` using the real current date (the prototype hard-codes 22 Oct 2026; don't). Closed items stay visible, muted, sorted last.
