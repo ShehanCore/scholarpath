@@ -4,7 +4,7 @@ import { ClosingCard } from "@/components/closing-card";
 import { DestinationCard, destinationImage } from "@/components/destination-card";
 import { BrowseA, BrowseB, type ChooserLists } from "@/components/home/chooser";
 import { FeaturedCarousel, type FeaturedSlide } from "@/components/home/featured-carousel";
-import { HomeVariantScript, HomeVariantSwitcher } from "@/components/home/home-variant";
+import { LayoutVariantScript, LayoutVariantSwitcher } from "@/components/layout-variant";
 import { SearchBox } from "@/components/search-box";
 import { Eyebrow, MonoNote, Panel, PanelHeader } from "@/components/ui/panel";
 import { destinationStats } from "@/lib/content/derive";
@@ -133,10 +133,10 @@ export default async function Home() {
 
   return (
     <>
-      <HomeVariantScript />
+      <LayoutVariantScript />
 
       {/* Layout A · Library */}
-      <div className="home-a">
+      <div className="layout-a">
         <section className="grid items-end gap-6 px-[clamp(4px,1.5vw,20px)] pt-[clamp(28px,5vw,64px)] pb-[clamp(28px,4vw,48px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))]">
           <div>
             <Eyebrow className="mb-3.5 text-teal">Scholarships &amp; research funding for Sri Lankan students</Eyebrow>
@@ -169,7 +169,7 @@ export default async function Home() {
       </div>
 
       {/* Layout B · Hero */}
-      <div className="home-b">
+      <div className="layout-b">
         <section className="mt-2 grid overflow-hidden rounded-[32px] bg-navy [grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))]">
           <div className="flex flex-col justify-center gap-[22px] p-[clamp(28px,5vw,64px)]">
             <Eyebrow className="text-gold-on-dark">Discover. Fund. Achieve.</Eyebrow>
@@ -275,7 +275,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <HomeVariantSwitcher />
+      <LayoutVariantSwitcher />
     </>
   );
 }

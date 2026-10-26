@@ -95,8 +95,11 @@
     font-variant-numeric: tabular-nums;
     -webkit-font-smoothing: antialiased;
   }
+  /* Underlined so links in running text don't rely on colour alone; buttons-as-links opt out with no-underline. */
   a {
     color: var(--color-teal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   a:hover {
     color: var(--color-teal-hover);
@@ -144,8 +147,8 @@
   }
 }
 
-/* Home layout A/B switch: set on <html> by an inline script before first paint (see home-variant.tsx). */
-html:not([data-home="b"]) .home-b,
-html[data-home="b"] .home-a {
+/* Design direction A/B: set on <html> by an inline script before first paint (see layout-variant.tsx). */
+html:not([data-layout="b"]) .layout-b,
+html[data-layout="b"] .layout-a {
   display: none;
 }
