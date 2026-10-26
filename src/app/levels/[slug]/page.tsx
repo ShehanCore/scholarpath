@@ -28,6 +28,7 @@ export default async function Page({ params }: PageProps<"/levels/[slug]">) {
       intro={`Funding for ${l.name} study abroad. One scholarship can cover several levels, so some awards also appear under other levels.`}
       tabs={levels.map((x) => ({ label: x.name, href: `/levels/${x.slug}`, current: x.slug === slug }))}
       scholarships={scholarships.filter((s) => s.levels.includes(l.code))}
+      allScholarships={scholarships}
       destinations={destinations}
       today={today}
       finderHref={`/scholarships?lv=${l.code}`}

@@ -28,6 +28,7 @@ export default async function Page({ params }: PageProps<"/disciplines/[slug]">)
       intro={`Scholarships and research funding for ${d.name}, including awards open to all disciplines. Subject-specific awards are marked separately.`}
       tabs={disciplines.map((x) => ({ label: x.name, href: `/disciplines/${x.slug}`, current: x.slug === slug }))}
       scholarships={scholarships.filter((s) => s.disciplinesAll || s.disciplines.includes(d.name))}
+      allScholarships={scholarships}
       destinations={destinations}
       today={today}
       finderHref={`/scholarships?disc=${d.slug}`}

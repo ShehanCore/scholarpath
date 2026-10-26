@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CompareBar } from "@/components/compare-bar";
 import { CardGrid, ScholarshipCard } from "@/components/scholarship-card";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Eyebrow, Panel, PanelHeader } from "@/components/ui/panel";
@@ -145,6 +146,7 @@ export default async function UniversityPage({ params }: PageProps<"/universitie
           <p className="mt-3.5 mb-0 text-xs text-muted">{RANK_ATTRIBUTION}</p>
         </Panel>
       )}
+      <CompareBar scholarships={scholarships} today={today} />
     </>
   );
 }

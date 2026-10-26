@@ -1,32 +1,44 @@
 import Link from "next/link";
 import type { Scholarship } from "@/lib/content/types";
 import { deadlineView, levelsText, scholarshipHref } from "@/lib/format";
+import { CompareButton } from "./compare-button";
 import { SaveButton } from "./save-button";
 import { StatusChip } from "./ui/status-chip";
 import { Tag } from "./ui/tag";
 
+type Action = "compare" | "save";
+
 /**
- * Scholarship card used on destination, university and category pages. Closed scholarships stay visible
- * on a muted background (text keeps full contrast). Funding values are never shown (CLAUDE.md).
+ * Scholarship card used on the finder, destination, university and category pages. Closed scholarships
+ * stay visible on a muted background (text keeps full contrast). Funding values are never shown (CLAUDE.md).
  */
 export function ScholarshipCard({
   s,
   today,
   eyebrow,
-  showFunder = false,
+  funder = "none",
   disciplineStyle = "plain",
+  actions = ["save"],
+  surface = "outlined",
 }: {
   s: Scholarship;
   today: string;
   eyebrow: string;
-  showFunder?: boolean;
+  /** Line under the name: "Funder · Funder type", just the funder, or nothing. */
+  funder?: "full" | "name" | "none";
   /** "navy" marks subject-specific awards on discipline pages. */
   disciplineStyle?: "plain" | "navy";
+  actions?: Action[];
+  /** "plain" for cards sitting directly on the page background (finder). */
+  surface?: "outlined" | "plain";
 }) {
   const d = deadlineView(s, today);
+  const stacked = actions.length > 1;
   return (
     <article
-      className={`flex flex-col gap-3 rounded-[22px] border border-border p-5 ${d.closed ? "bg-surface-3" : "bg-surface"}`}
+      className={`flex flex-col gap-3 rounded-[22px] p-5 ${surface === "outlined" ? "border border-border" : ""} ${
+        d.closed ? "bg-surface-3" : "bg-surface"
+      }`}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="text-xs font-semibold uppercase tracking-[.06em] text-muted">{eyebrow}</span>
@@ -34,10 +46,8 @@ export function ScholarshipCard({
       </div>
       <div>
         <h3 className="m-0 font-heading text-xl leading-[1.2] font-semibold">{s.name}</h3>
-        {showFunder && (
-          <p className="mt-1 mb-0 text-[13px] text-muted">
-            {s.funder} · {s.funderType}
-          </p>
+        {funder !== "none" && (
+          <p className="mt-1 mb-0 text-[13px] text-muted">{funder === "full" ? `${s.funder} · ${s.funderType}` : s.funder}</p>
         )}
       </div>
       <div className="flex flex-wrap gap-1.5">
@@ -52,16 +62,23 @@ export function ScholarshipCard({
           )
         )}
       </div>
-      <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
+      <div
+        className={`mt-auto flex gap-2.5 border-t border-border pt-3 ${
+          stacked ? "flex-col" : "flex-wrap items-center justify-between"
+        }`}
+      >
         <p className="m-0 text-[13px] text-muted">
           Closes <span className="font-semibold text-ink">{d.closeText}</span> · {d.daysText}
         </p>
-        <div className="flex gap-1.5">
-          <SaveButton id={s.id} name={s.name} />
+        <div className="flex flex-wrap gap-1.5">
+          {actions.includes("compare") && <CompareButton id={s.id} name={s.name} />}
+          {actions.includes("save") && <SaveButton id={s.id} name={s.name} />}
           <Link
             href={scholarshipHref(s.id)}
             aria-label={`Details: ${s.name}`}
-            className="flex min-h-11 items-center rounded-pill bg-navy px-4 text-[11px] font-bold uppercase tracking-[.05em] text-white no-underline hover:bg-ink hover:text-white"
+            className={`flex min-h-11 items-center rounded-pill bg-navy px-4 text-[11px] font-bold uppercase tracking-[.05em] text-white no-underline hover:bg-ink hover:text-white ${
+              stacked ? "ml-auto" : ""
+            }`}
           >
             Details
           </Link>

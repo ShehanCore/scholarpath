@@ -84,7 +84,7 @@ export default async function DestinationPage({ params }: PageProps<"/destinatio
         {here.length ? (
           <CardGrid min={320}>
             {here.map((s) => (
-              <ScholarshipCard key={s.id} s={s} today={today} eyebrow={scopeText(s)} showFunder />
+              <ScholarshipCard key={s.id} s={s} today={today} eyebrow={scopeText(s)} funder="full" />
             ))}
           </CardGrid>
         ) : (

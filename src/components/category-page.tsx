@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CompareBar } from "@/components/compare-bar";
 import { CardGrid, ScholarshipCard } from "@/components/scholarship-card";
 import { Eyebrow, Panel, PanelHeader } from "@/components/ui/panel";
 import type { Destination, Scholarship } from "@/lib/content/types";
@@ -13,6 +14,7 @@ export function CategoryPage({
   intro,
   tabs,
   scholarships,
+  allScholarships,
   destinations,
   today,
   finderHref,
@@ -24,6 +26,8 @@ export function CategoryPage({
   tabs: { label: string; href: string; current: boolean }[];
   /** Scholarships matching this category. */
   scholarships: Scholarship[];
+  /** Every scholarship, so the compare drawer can show picks made on other pages. */
+  allScholarships: Scholarship[];
   destinations: Destination[];
   today: string;
   finderHref: string;
@@ -104,6 +108,7 @@ export function CategoryPage({
                 today={today}
                 eyebrow={`${destName(s.destinationCode)} · ${s.funderType}`}
                 disciplineStyle={kind === "Discipline" ? "navy" : "plain"}
+                actions={["compare"]}
               />
             ))}
           </CardGrid>
@@ -137,6 +142,7 @@ export function CategoryPage({
           </ul>
         </Panel>
       )}
+      <CompareBar scholarships={allScholarships} today={today} />
     </>
   );
 }
