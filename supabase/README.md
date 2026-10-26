@@ -28,13 +28,12 @@ Ranks live in `rankings` (one row per university per year: `rank_display` exactl
 1. Authentication → URL Configuration: set **Site URL** to your site (e.g. `https://scholarpath.lk`) and add
    `https://scholarpath.lk/auth/callback` and `http://localhost:3000/auth/callback` to **Redirect URLs**.
 2. Authentication → Providers → Email: keep "Confirm email" on. Minimum password length 8.
-3. Google (optional): Authentication → Providers → Google, with a client ID and secret from Google Cloud
-   (authorised redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`). Until it's set up,
-   "Continue with Google" shows "Google sign-in isn't available yet".
+3. Google: follow `docs/google-sign-in.md` (Google Cloud OAuth client, then enable the provider here).
+   Until it's set up, "Continue with Google" shows "Google sign-in isn't available yet".
 4. Emails: the default templates work (links go through `/auth/callback`). To use your own domain for auth
    emails, set up custom SMTP under Authentication → Emails.
 
-Registration step 1 sends name, role, WhatsApp number and opt-in, and terms consent as sign-up metadata; the
+Registration step 1 sends name, role, WhatsApp number (required) and opt-in, and terms consent as sign-up metadata; the
 `handle_new_user` trigger copies them into `profiles` (malformed values are dropped). WhatsApp opt-in and
 opt-out times are recorded by the `profiles_whatsapp_consent` trigger.
 

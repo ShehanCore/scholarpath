@@ -205,6 +205,11 @@ export function RegisterFlow({ scholarships, destinations }: Props) {
   );
 }
 
+/** Registration step 1 is done: terms agreed and a contact number given (Google sign-ups add these after). */
+export function profileComplete(row: Pick<ProfileRow, "terms_accepted_at" | "whatsapp">): boolean {
+  return Boolean(row.terms_accepted_at && row.whatsapp);
+}
+
 export function ProfileRows({
   profile,
   row,
@@ -247,7 +252,7 @@ function AccountStep({
 }) {
   const params = useSearchParams();
   // Signed in with Google but not finished: collect role, WhatsApp and consent, no password.
-  const completing = Boolean(user && row && !row.terms_accepted_at);
+  const completing = Boolean(user && row && !profileComplete(row));
   const [role, setRole] = useState<Role>("Student");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -262,7 +267,7 @@ function AccountStep({
 
   // Signed in and already registered: this step is done.
   useEffect(() => {
-    if (user && row?.terms_accepted_at) onDone();
+    if (user && row && profileComplete(row)) onDone();
   }, [user, row, onDone]);
   // Pre-fill from Google once, when the signed-in profile arrives.
   const [prefilled, setPrefilled] = useState<string | null>(null);
@@ -276,13 +281,10 @@ function AccountStep({
     e.preventDefault();
     if (name.trim().length < 2) return setError({ field: "name", text: "Enter your full name." });
     if (!validEmail(email)) return setError({ field: "email", text: "Enter a valid email address." });
-    // The number is optional: it's only used if the visitor opts in to WhatsApp updates.
-    let whatsapp: string | null = null;
-    if (wa.trim() || waOptIn) {
-      const parsed = parseWhatsApp(waCode, wa);
-      if ("error" in parsed) return setError({ field: "wa", text: parsed.error });
-      whatsapp = parsed.e164;
-    }
+    // Everyone gives a contact number; WhatsApp messages need the separate opt-in below.
+    const parsed = parseWhatsApp(waCode, wa);
+    if ("error" in parsed) return setError({ field: "wa", text: parsed.error });
+    const whatsapp = parsed.e164;
     if (!completing && password.length < 8) return setError({ field: "password", text: "Use a password with at least 8 characters." });
     if (!consent) return setError({ field: "consent", text: "Please agree to the Terms and Privacy policy to continue." });
     if (!authAvailable) return;
@@ -292,7 +294,7 @@ function AccountStep({
     if (completing && user) {
       const { error: err } = await supabase
         .from("profiles")
-        .update({ name: name.trim(), role, whatsapp, wa_opt_in: Boolean(whatsapp) && waOptIn, terms_accepted_at: new Date().toISOString() })
+        .update({ name: name.trim(), role, whatsapp, wa_opt_in: waOptIn, terms_accepted_at: row?.terms_accepted_at ?? new Date().toISOString() })
         .eq("id", user.id);
       setPending(false);
       if (err) return setError({ text: authErrorMessage(err) });
@@ -302,7 +304,7 @@ function AccountStep({
       email,
       password,
       options: {
-        data: { name: name.trim(), role, whatsapp, wa_opt_in: Boolean(whatsapp) && waOptIn, terms: true },
+        data: { name: name.trim(), role, whatsapp, wa_opt_in: waOptIn, terms: true },
         emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent("/register?step=3")}`,
       },
     });
@@ -356,7 +358,7 @@ function AccountStep({
         />
         <div className="flex flex-col gap-1.5">
           <label htmlFor={`${waId}-wa`} className="text-[13px] font-semibold">
-            WhatsApp number <span className="font-medium text-muted">(optional)</span>
+            WhatsApp number
           </label>
           <div className="flex gap-2">
             <select
@@ -376,6 +378,7 @@ function AccountStep({
               type="tel"
               inputMode="tel"
               autoComplete="tel-national"
+              required
               placeholder={waCode === "+94" ? "77 123 4567" : "Mobile number"}
               value={wa}
               onChange={(e) => setWa(e.target.value.replace(/[^\d\s]/g, ""))}

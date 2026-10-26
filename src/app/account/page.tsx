@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { AuthCard, Heading, Unavailable, primaryButton } from "@/components/auth/auth-ui";
-import { ProfileRows } from "@/components/auth/register-flow";
+import { ProfileRows, profileComplete } from "@/components/auth/register-flow";
 import { initials } from "@/lib/client/auth-store";
 import { getDestinations } from "@/lib/db/queries";
 import { blankFilters, filtersToQuery } from "@/lib/finder";
@@ -65,9 +65,10 @@ async function Account() {
           <p className="mt-0.5 mb-0 text-sm font-medium [overflow-wrap:anywhere] text-muted">{user.email}</p>
         </div>
       </div>
-      {row && !row.terms_accepted_at && (
+      {row && !profileComplete(row) && (
         <p role="note" className="m-0 rounded-segment bg-warning-bg px-4 py-3 text-sm text-warning-fg">
-          Finish setting up your account. <Link href="/register?step=1">Continue</Link>
+          Finish setting up your account: add your WhatsApp number and agree to the terms.{" "}
+          <Link href="/register?step=1">Continue</Link>
         </p>
       )}
       <ProfileRows profile={profile} row={row} destinations={destinations.map((d) => ({ code: d.code, name: d.name }))} />
