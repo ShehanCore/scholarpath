@@ -6,14 +6,18 @@ import { requestReopenAlert, type ReopenAlertState } from "@/app/actions/reopen-
 import { CloseButton, Dialog } from "./ui/dialog";
 
 /** "Notify me when it reopens" on closed scholarships: one email when new dates are published. */
-export function NotifyButton({ id, name }: { id: string; name: string }) {
+export function NotifyButton({ id, name, variant = "card" }: { id: string; name: string; variant?: "card" | "onDark" }) {
   const [open, setOpen] = useState(false);
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="min-h-11 shrink-0 rounded-pill border-[1.5px] border-ink bg-surface px-3.5 text-[11px] font-bold uppercase tracking-[.05em] text-ink hover:bg-surface-4"
+        className={
+          variant === "onDark"
+            ? "min-h-[50px] rounded-pill border-0 bg-surface text-xs font-bold uppercase tracking-[.05em] text-navy hover:bg-surface-4"
+            : "min-h-11 shrink-0 rounded-pill border-[1.5px] border-ink bg-surface px-3.5 text-[11px] font-bold uppercase tracking-[.05em] text-ink hover:bg-surface-4"
+        }
       >
         Notify me when it reopens
       </button>

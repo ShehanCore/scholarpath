@@ -75,7 +75,10 @@ describe("verificationChip", () => {
   it("warns for expected dates", () =>
     expect(verificationChip({ ...base, verificationStatus: "expected_or_to_confirm" }).tone).toBe("warning"));
   it("warns while a human check is pending, even if dates were checked", () =>
-    expect(verificationChip({ ...base, verificationStatus: "checked", humanCheckNote: "x" }).tone).toBe("warning"));
+    expect(verificationChip({ ...base, verificationStatus: "checked", humanCheckNote: "x" })).toEqual({
+      tone: "warning",
+      label: "Details to confirm",
+    }));
   it("marks sample data", () =>
     expect(verificationChip({ ...base, verificationStatus: "sample" })).toEqual({ tone: "sample", label: "Sample data" }));
 });

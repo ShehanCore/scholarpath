@@ -21,7 +21,7 @@ export function verificationChip(
   s: Pick<Scholarship, "verificationStatus" | "lastVerified" | "humanCheckNote">,
 ): VerificationChip {
   if (s.verificationStatus === "sample") return { tone: "sample", label: "Sample data" };
-  if (s.verificationStatus === "expected_or_to_confirm" || s.humanCheckNote)
-    return { tone: "warning", label: "Dates expected · to confirm" };
+  if (s.verificationStatus === "expected_or_to_confirm") return { tone: "warning", label: "Dates expected · to confirm" };
+  if (s.humanCheckNote) return { tone: "warning", label: "Details to confirm" };
   return { tone: "verified", label: `Dates checked ${formatDate(s.lastVerified)}` };
 }
