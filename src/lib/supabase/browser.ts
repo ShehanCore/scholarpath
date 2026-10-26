@@ -9,6 +9,12 @@ const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT
 /** False until Supabase is configured: sign-in pages then say accounts aren't available yet. */
 export const authAvailable = Boolean(url && key);
 
+/**
+ * Google sign-in buttons show only once Google is connected (docs/google-sign-in.md): set
+ * NEXT_PUBLIC_GOOGLE_SIGN_IN=on in Vercel and redeploy. Otherwise a click would end on Supabase's error page.
+ */
+export const googleSignIn = authAvailable && process.env.NEXT_PUBLIC_GOOGLE_SIGN_IN === "on";
+
 let client: ReturnType<typeof createBrowserClient<Database>> | null = null;
 
 /** Browser client; the session lives in cookies so server actions can read it. */

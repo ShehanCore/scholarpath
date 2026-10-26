@@ -21,7 +21,7 @@ import {
   type Role,
   type StudyProfile,
 } from "@/lib/profile";
-import { authAvailable, browserClient } from "@/lib/supabase/browser";
+import { authAvailable, browserClient, googleSignIn } from "@/lib/supabase/browser";
 import { disciplines, levels } from "@/lib/taxonomy";
 import {
   AuthTabs,
@@ -388,7 +388,7 @@ function AccountStep({
             />
           </div>
           <span id={`${waId}-wa-hint`} className="text-[13px] leading-[1.45] font-medium text-muted">
-            We use this to add you to the official ScholarPath WhatsApp channel and send deadline reminders.
+            Join our WhatsApp group
           </span>
           {err("wa") && <FieldError id={`${waId}-wa-err`}>{err("wa")}</FieldError>}
         </div>
@@ -413,8 +413,8 @@ function AccountStep({
         <button type="submit" disabled={pending || !authAvailable} className={primaryButton}>
           {pending ? "Creating your account…" : "Continue"}
         </button>
-        {!completing && (
-          <button type="button" onClick={google} disabled={!authAvailable} className={secondaryButton}>
+        {!completing && googleSignIn && (
+          <button type="button" onClick={google} className={secondaryButton}>
             Sign up with Google
           </button>
         )}

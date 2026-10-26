@@ -1,7 +1,8 @@
 # Turn on "Continue with Google"
 
-The app already has the buttons and the return route (`/auth/callback`). Google sign-in starts working once
-Google and Supabase know about each other. You need: your Supabase project, and a Google account to own the
+The app already has the buttons and the return route (`/auth/callback`). The buttons stay hidden until you
+finish this guide and switch them on (step 3). Google sign-in starts working once Google and Supabase know
+about each other. You need: your Supabase project, and a Google account to own the
 Google Cloud project (use the ScholarPath business account, not a personal one).
 
 After a student signs in with Google for the first time, ScholarPath sends them to finish registration
@@ -39,7 +40,14 @@ then their account page shows "Finish setting up your account".
 Keep the client secret in Supabase only. It never goes in the code, in Vercel's `NEXT_PUBLIC_*` variables,
 or in chat.
 
-## 3. Test
+## 3. Vercel: show the buttons
+
+In Vercel → your project → **Settings → Environment Variables**, add `NEXT_PUBLIC_GOOGLE_SIGN_IN` with the
+value `on` (Production and Preview), then **Deployments → ⋯ → Redeploy** the latest deployment.
+`NEXT_PUBLIC_` values are baked in at build time, so the buttons appear only after the redeploy. To hide
+them again, delete the variable and redeploy.
+
+## 4. Test
 
 1. Open `/login` and choose **Continue with Google**. Pick a test account.
 2. You should land on **Finish creating your account**, with your name and email filled in from Google.
@@ -48,5 +56,6 @@ or in chat.
 3. `/account` shows your profile and WhatsApp number. Log out and sign in with Google again: you go
    straight to `/account`.
 
-If the button says "Google sign-in isn't available yet", the provider isn't enabled in Supabase. If Google
+If there's no Google button, `NEXT_PUBLIC_GOOGLE_SIGN_IN` isn't `on` or you haven't redeployed. If the
+button says "Google sign-in isn't available yet", the provider isn't enabled in Supabase. If Google
 shows "redirect_uri_mismatch", the redirect URI in step 1.3 doesn't exactly match Supabase's callback URL.

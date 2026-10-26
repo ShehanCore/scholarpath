@@ -5,7 +5,9 @@ import { serviceClient, serviceConfigured } from "@/lib/db/service-client";
 import { todayIso } from "@/lib/status";
 import { currentUser, serverClient } from "@/lib/supabase/server";
 
-const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-opus-5-5";
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-5-5";
+// Server-side refusal fallback exists on these models only (not Haiku): elsewhere a decline falls back to the template.
+const FALLBACK = /^claude-(opus-5|sonnet-5-5|fable-5)/.test(MODEL);
 
 type Fail = "signin" | "unavailable" | "limit" | "invalid" | "failed";
 const fail = (error: Fail, status: number) => Response.json({ error }, { status });
@@ -34,8 +36,7 @@ export async function POST(request: Request) {
     const response = await client.beta.messages.create({
       model: MODEL,
       max_tokens: 4000,
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
+      ...(FALLBACK ? { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" as const } : {}),
       output_config: { effort: "low", format: { type: "json_schema", schema: DRAFT_SCHEMA } },
       system: DRAFT_SYSTEM,
       messages: [{ role: "user", content: draftPrompt(req, scholarship, profile?.name ?? "") }],

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { authErrorMessage } from "@/lib/auth-errors";
 import { safeNext } from "@/lib/profile";
-import { authAvailable, browserClient } from "@/lib/supabase/browser";
+import { authAvailable, browserClient, googleSignIn } from "@/lib/supabase/browser";
 import { AuthTabs, FieldError, Heading, OrDivider, PasswordField, TextField, Unavailable, primaryButton, secondaryButton } from "./auth-ui";
 
 const validEmail = (e: string) => /^\S+@\S+\.\S+$/.test(e);
@@ -90,10 +90,14 @@ export function LoginForm() {
         <button type="submit" disabled={pending || !authAvailable} className={primaryButton}>
           {pending ? "Logging in…" : "Log in"}
         </button>
-        <OrDivider />
-        <button type="button" onClick={google} disabled={!authAvailable} className={secondaryButton}>
-          Continue with Google
-        </button>
+        {googleSignIn && (
+          <>
+            <OrDivider />
+            <button type="button" onClick={google} className={secondaryButton}>
+              Continue with Google
+            </button>
+          </>
+        )}
         <p className="m-0 text-center text-sm font-medium text-muted">
           New to ScholarPath?{" "}
           <Link href={`/register${params.get("next") ? `?next=${encodeURIComponent(next)}` : ""}`} className="font-bold">
