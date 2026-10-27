@@ -19,7 +19,7 @@ export type FeaturedSlide = {
 };
 
 /**
- * Layout A's featured scholarship. Rotates every 7 s like the prototype, with a pause button (WCAG 2.2.2);
+ * The featured scholarship. Rotates every 7 s like the prototype, with a pause button (WCAG 2.2.2);
  * never rotates for reduced motion, and pauses while hovered or focused.
  */
 const REDUCED = "(prefers-reduced-motion: reduce)";

@@ -6,9 +6,9 @@ import { searchMatches, type SearchEntry } from "@/lib/search-index";
 
 /**
  * Search with suggestions (ARIA combobox). Arrow keys move through suggestions, Enter opens one,
- * Escape closes the list. "light" sits on a white panel (layout A); "hero" sits on navy (layout B).
+ * Escape closes the list.
  */
-export function SearchBox({ index, variant }: { index: SearchEntry[]; variant: "light" | "hero" }) {
+export function SearchBox({ index }: { index: SearchEntry[] }) {
   const router = useRouter();
   const id = useId();
   const listId = `${id}-list`;
@@ -30,10 +30,9 @@ export function SearchBox({ index, variant }: { index: SearchEntry[]; variant: "
     else setOpen(true);
   };
 
-  const hero = variant === "hero";
   return (
     <div
-      className={`relative ${hero ? "max-w-[580px]" : "max-w-[520px] flex-[1_1_300px]"}`}
+      className="relative max-w-[520px] flex-[1_1_300px]"
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);
       }}
@@ -47,7 +46,7 @@ export function SearchBox({ index, variant }: { index: SearchEntry[]; variant: "
       >
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute block rounded-full border-2 border-muted ${hero ? "top-[21px] left-5 size-3.5" : "top-4 left-[18px] size-[13px]"}`}
+          className="pointer-events-none absolute top-4 left-[18px] block size-[13px] rounded-full border-2 border-muted"
         />
         <input
           ref={inputRef}
@@ -80,25 +79,15 @@ export function SearchBox({ index, variant }: { index: SearchEntry[]; variant: "
               setActive(-1);
             }
           }}
-          className={`w-full rounded-pill border-0 font-medium text-ink placeholder:text-muted ${
-            hero ? "h-[58px] bg-surface pr-[120px] pl-12 text-[15px]" : "h-12 bg-surface-4 pr-[18px] pl-11 text-sm"
-          }`}
+          className="h-12 w-full rounded-pill border-0 bg-surface-4 pr-[18px] pl-11 text-sm font-medium text-ink placeholder:text-muted"
         />
-        {hero && (
-          <button
-            type="submit"
-            className="absolute top-1.5 right-1.5 h-[46px] rounded-pill border-0 bg-gold px-[22px] text-xs font-bold uppercase tracking-[.05em] text-on-gold hover:bg-gold-hover active:bg-gold-pressed"
-          >
-            Search
-          </button>
-        )}
       </form>
       <div
         id={listId}
         role="listbox"
         aria-label="Suggestions"
         hidden={!showList}
-        className={`absolute right-0 left-0 z-20 max-h-[360px] overflow-auto rounded-card-sm bg-surface p-1.5 shadow-dropdown ${hero ? "top-16" : "top-[54px]"}`}
+        className="absolute top-[54px] right-0 left-0 z-20 max-h-[360px] overflow-auto rounded-card-sm bg-surface p-1.5 shadow-dropdown"
       >
         {matches.map((m, i) => (
           <div

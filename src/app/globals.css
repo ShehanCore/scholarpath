@@ -146,9 +146,3 @@
     animation: none !important;
   }
 }
-
-/* Design direction A/B: set on <html> by an inline script before first paint (see layout-variant.tsx). */
-html:not([data-layout="b"]) .layout-b,
-html[data-layout="b"] .layout-a {
-  display: none;
-}

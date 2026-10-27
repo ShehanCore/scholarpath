@@ -1,10 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ClosingCard } from "@/components/closing-card";
 import { DestinationCard, destinationImage } from "@/components/destination-card";
-import { BrowseA, BrowseB, type ChooserLists } from "@/components/home/chooser";
+import { BrowseA, type ChooserLists } from "@/components/home/chooser";
 import { FeaturedCarousel, type FeaturedSlide } from "@/components/home/featured-carousel";
-import { LayoutVariantScript, LayoutVariantSwitcher } from "@/components/layout-variant";
 import { SearchBox } from "@/components/search-box";
 import { Eyebrow, MonoNote, Panel, PanelHeader } from "@/components/ui/panel";
 import { destinationStats } from "@/lib/content/derive";
@@ -133,62 +131,36 @@ export default async function Home() {
 
   return (
     <>
-      <LayoutVariantScript />
+      <section className="grid items-end gap-6 px-[clamp(4px,1.5vw,20px)] pt-[clamp(28px,5vw,64px)] pb-[clamp(28px,4vw,48px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))]">
+        <div>
+          <Eyebrow className="mb-3.5 text-teal">Scholarships &amp; research funding for Sri Lankan students</Eyebrow>
+          <h1 className="m-0 font-heading text-[clamp(38px,5.4vw,68px)] leading-[1.02] font-semibold tracking-[-.02em] text-balance">
+            Find the right scholarship. Apply with confidence.
+          </h1>
+        </div>
+        <p className="m-0 max-w-[460px] text-base leading-[1.6] text-pretty text-muted">
+          Browse funding to study abroad by discipline, level, destination and university — then run a
+          pre-submission check so the application you send is one you&apos;re confident in.
+        </p>
+      </section>
+      <Panel labelledBy="explore-a">
+        <div className="mb-[22px] flex flex-wrap items-center justify-between gap-3">
+          <h2 id="explore-a" className="m-0 font-heading text-2xl font-semibold tracking-[-.01em]">
+            Explore scholarships
+          </h2>
+          <div className="flex flex-[1_1_360px] flex-wrap justify-end gap-2.5">
+            <SearchBox index={searchIndex} />
+            <Link
+              href="/checklist"
+              className="flex h-12 items-center rounded-pill border-[1.5px] border-ink bg-surface px-5 text-xs font-bold whitespace-nowrap uppercase tracking-[.05em] text-ink no-underline hover:bg-surface-4 hover:text-ink"
+            >
+              Open checklist
+            </Link>
+          </div>
+        </div>
+        <BrowseA lists={lists} quickFilters={quickFilters} featured={<FeaturedCarousel slides={slides} />} />
+      </Panel>
 
-      {/* Layout A · Library */}
-      <div className="layout-a">
-        <section className="grid items-end gap-6 px-[clamp(4px,1.5vw,20px)] pt-[clamp(28px,5vw,64px)] pb-[clamp(28px,4vw,48px)] [grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))]">
-          <div>
-            <Eyebrow className="mb-3.5 text-teal">Scholarships &amp; research funding for Sri Lankan students</Eyebrow>
-            <h1 className="m-0 font-heading text-[clamp(38px,5.4vw,68px)] leading-[1.02] font-semibold tracking-[-.02em] text-balance">
-              Find the right scholarship. Apply with confidence.
-            </h1>
-          </div>
-          <p className="m-0 max-w-[460px] text-base leading-[1.6] text-pretty text-muted">
-            Browse funding to study abroad by discipline, level, destination and university — then run a
-            pre-submission check so the application you send is one you&apos;re confident in.
-          </p>
-        </section>
-        <Panel labelledBy="explore-a">
-          <div className="mb-[22px] flex flex-wrap items-center justify-between gap-3">
-            <h2 id="explore-a" className="m-0 font-heading text-2xl font-semibold tracking-[-.01em]">
-              Explore scholarships
-            </h2>
-            <div className="flex flex-[1_1_360px] flex-wrap justify-end gap-2.5">
-              <SearchBox index={searchIndex} variant="light" />
-              <Link
-                href="/checklist"
-                className="flex h-12 items-center rounded-pill border-[1.5px] border-ink bg-surface px-5 text-xs font-bold whitespace-nowrap uppercase tracking-[.05em] text-ink no-underline hover:bg-surface-4 hover:text-ink"
-              >
-                Open checklist
-              </Link>
-            </div>
-          </div>
-          <BrowseA lists={lists} quickFilters={quickFilters} featured={<FeaturedCarousel slides={slides} />} />
-        </Panel>
-      </div>
-
-      {/* Layout B · Hero */}
-      <div className="layout-b">
-        <section className="mt-2 grid overflow-hidden rounded-[32px] bg-navy [grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))]">
-          <div className="flex flex-col justify-center gap-[22px] p-[clamp(28px,5vw,64px)]">
-            <Eyebrow className="text-gold-on-dark">Discover. Fund. Achieve.</Eyebrow>
-            <h1 className="m-0 font-heading text-[clamp(38px,5vw,64px)] leading-[1.03] font-semibold tracking-[-.02em] text-balance text-white">
-              Find the right scholarship and submit an application you&apos;re confident in.
-            </h1>
-            <p className="m-0 max-w-[520px] text-base leading-[1.6] text-on-dark-muted">
-              Funding to study abroad for undergraduates, graduates and early-career researchers in Sri Lanka.
-            </p>
-            <SearchBox index={searchIndex} variant="hero" />
-          </div>
-          <div className="relative min-h-80">
-            <Image src={destinationImage("GB")} alt="" fill sizes="(min-width: 1380px) 660px, 100vw" className="object-cover" />
-          </div>
-        </section>
-        <BrowseB lists={lists} />
-      </div>
-
-      {/* Shared sections */}
       <Panel className="mt-4" labelledBy="closing-soon">
         <PanelHeader id="closing-soon" title="Closing soon" aside={<MonoNote>Dates as of {formatDate(today)}</MonoNote>} />
         {closing.length ? (
@@ -275,7 +247,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <LayoutVariantSwitcher />
     </>
   );
 }

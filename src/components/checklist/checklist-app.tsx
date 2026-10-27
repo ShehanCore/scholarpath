@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useLayoutVariant } from "@/components/layout-variant";
 import { Eyebrow } from "@/components/ui/panel";
 import {
   COMMITTEE_QUESTION,
@@ -38,9 +37,7 @@ export function ChecklistApp({ scholarships, destNames, today }: Props) {
   const all = useAllChecklists();
   const stored = all?.[key];
   const c = stored ?? (linked ? prefill(linked) : blankChecklist());
-  const layout = useLayoutVariant();
   const [tipOpen, setTipOpen] = useState<Record<string, boolean>>({});
-  const [section, setSection] = useState(0);
 
   const setupIncomplete = !c.type || !c.level;
   const stepParam = params.get("step");
@@ -86,11 +83,9 @@ export function ChecklistApp({ scholarships, destNames, today }: Props) {
   const setNote = (id: string, n: string) => update((x) => ({ ...x, notes: { ...x.notes, [id]: n } }));
   const toggleTip = (id: string) => setTipOpen((t) => ({ ...t, [id]: !t[id] }));
   const sections = st.sections;
-  const cur = Math.min(section, sections.length - 1);
 
-  const revisit = (itemId: string, sectionIndex: number) => {
+  const revisit = (itemId: string) => {
     setTipOpen((t) => ({ ...t, [itemId]: true }));
-    setSection(sectionIndex);
     go({ step: "review" });
     // Wait for the review to render, then bring the item into view.
     setTimeout(() => {
@@ -193,172 +188,78 @@ export function ChecklistApp({ scholarships, destNames, today }: Props) {
         </section>
       )}
 
-      {step === "review" &&
-        (layout === "a" ? (
-          <div className="mt-4 grid grid-cols-[minmax(0,1fr)] items-start gap-4 min-[900px]:grid-cols-[230px_minmax(0,1fr)] min-[1240px]:grid-cols-[250px_minmax(0,1fr)_320px]">
-            <aside aria-label="Sections" className="rounded-card bg-surface p-3.5 min-[900px]:sticky min-[900px]:top-24">
-              <p className="mx-1.5 mt-1 mb-2.5 text-xs font-semibold uppercase tracking-[.06em] text-muted">Sections</p>
-              <ul className="relative m-0 flex list-none gap-1 overflow-x-auto p-0 min-[900px]:flex-col">
-                {sections.map((sec) => {
-                  const done = sec.items.filter((it) => c.items[it.id] === "done" || c.items[it.id] === "na").length;
-                  const complete = done === sec.items.length;
-                  return (
-                    <li key={sec.letter} className="shrink-0">
-                      <a
-                        href={`#sec-${sec.letter}`}
-                        className={`flex min-h-12 items-center gap-2.5 rounded-segment px-3 py-1.5 whitespace-nowrap no-underline hover:bg-surface-4 ${complete ? "text-teal hover:text-teal" : "text-ink hover:text-ink"}`}
-                      >
-                        <span className="w-4 font-mono text-xs font-semibold">{sec.letter}</span>
-                        <span className="flex-1 text-[13px] font-semibold">{sec.short}</span>
-                        <span className="font-mono text-xs font-medium text-muted">
-                          {done}/{sec.items.length}
-                          <span className="sr-only"> done</span>
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </aside>
-            <div className="flex min-w-0 flex-col gap-3">
-              {sections.map((sec) => (
-                <section key={sec.letter} id={`sec-${sec.letter}`} aria-labelledby={`sec-${sec.letter}-h`} className="scroll-mt-24 rounded-card bg-surface p-[clamp(16px,2.2vw,26px)]">
-                  <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-2.5">
-                    <h2 id={`sec-${sec.letter}-h`} className="m-0 font-heading text-[21px] font-semibold">
-                      <span className="mr-2 font-mono text-sm font-medium text-muted">{sec.letter}</span>
-                      {sec.title}
-                    </h2>
-                    <span className="flex h-7 items-center rounded-pill border border-border-input px-2.5 text-xs font-semibold">{sec.quality}</span>
-                  </div>
-                  {sec.researchOnly && (
-                    <p className="m-0 mb-1.5 text-[13px] text-teal">Shown because this is a research grant, MPhil or PhD application.</p>
-                  )}
-                  {sec.items.map((it) => (
-                    <ItemRow
-                      key={it.id}
-                      item={it}
-                      state={c.items[it.id]}
-                      note={c.notes[it.id] ?? ""}
-                      onState={(s) => setState(it.id, s)}
-                      onNote={(n) => setNote(it.id, n)}
-                      tipOpen={Boolean(tipOpen[it.id])}
-                      onTip={() => toggleTip(it.id)}
-                      variant="row"
-                    />
-                  ))}
-                </section>
-              ))}
-              <button
-                type="button"
-                onClick={() => go({ step: "summary" })}
-                className="min-h-[52px] self-end rounded-pill border-0 bg-gold px-7 text-[13px] font-bold uppercase tracking-[.05em] text-on-gold hover:bg-gold-hover"
-              >
-                See readiness summary
-              </button>
-            </div>
-            <aside aria-label="Readiness" className="flex flex-col gap-3 min-[900px]:col-start-2 min-[1240px]:sticky min-[1240px]:top-24 min-[1240px]:col-start-3">
-              <section aria-labelledby="by-quality" className="rounded-card bg-surface p-5">
-                <h2 id="by-quality" className="m-0 mb-3.5 font-heading text-[17px] font-semibold">
-                  Readiness by quality
-                </h2>
-                <QualityBars bars={st.bars} />
-              </section>
-              <CommitteePanel type={c.type} collapsible />
-            </aside>
-          </div>
-        ) : (
-          <>
-            <nav aria-label="Sections" className="mt-3">
-              <ul className="m-0 flex list-none gap-1.5 overflow-x-auto p-0 pb-1">
-                {sections.map((sec, si) => {
-                  const done = sec.items.filter((it) => c.items[it.id] === "done" || c.items[it.id] === "na").length;
-                  const on = si === cur;
-                  return (
-                    <li key={sec.letter} className="shrink-0">
-                      <button
-                        type="button"
-                        aria-current={on ? "step" : undefined}
-                        onClick={() => setSection(si)}
-                        className={`flex min-h-12 items-center gap-2 rounded-pill border-0 px-4 text-[13px] font-semibold whitespace-nowrap ${on ? "bg-navy text-white" : "bg-surface text-ink"}`}
-                      >
-                        <span className="font-mono">{sec.letter}</span>
-                        {sec.short}
-                        <span className="font-mono text-[11px] font-medium opacity-75">
-                          {done}/{sec.items.length}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-            <div className="mt-3 grid grid-cols-[minmax(0,1fr)] items-start gap-4 min-[1040px]:grid-cols-[minmax(0,1fr)_360px]">
-              {sections[cur] && (
-                <section aria-labelledby="cur-section" className="min-w-0 rounded-card-lg bg-surface p-[clamp(18px,3vw,36px)]">
-                  <p className="m-0 mb-2.5 font-mono text-xs font-medium text-muted">
-                    Section {cur + 1} of {sections.length} · feeds {sections[cur].quality}
-                  </p>
-                  <h2 id="cur-section" tabIndex={-1} className="m-0 mb-1.5 font-heading text-[clamp(26px,3vw,36px)] leading-[1.1] font-semibold tracking-[-.01em]">
-                    <span className="mr-2.5 text-muted">{sections[cur].letter}</span>
-                    {sections[cur].title}
+      {step === "review" && (
+        <div className="mt-4 grid grid-cols-[minmax(0,1fr)] items-start gap-4 min-[900px]:grid-cols-[230px_minmax(0,1fr)] min-[1240px]:grid-cols-[250px_minmax(0,1fr)_320px]">
+          <aside aria-label="Sections" className="rounded-card bg-surface p-3.5 min-[900px]:sticky min-[900px]:top-24">
+            <p className="mx-1.5 mt-1 mb-2.5 text-xs font-semibold uppercase tracking-[.06em] text-muted">Sections</p>
+            <ul className="relative m-0 flex list-none gap-1 overflow-x-auto p-0 min-[900px]:flex-col">
+              {sections.map((sec) => {
+                const done = sec.items.filter((it) => c.items[it.id] === "done" || c.items[it.id] === "na").length;
+                const complete = done === sec.items.length;
+                return (
+                  <li key={sec.letter} className="shrink-0">
+                    <a
+                      href={`#sec-${sec.letter}`}
+                      className={`flex min-h-12 items-center gap-2.5 rounded-segment px-3 py-1.5 whitespace-nowrap no-underline hover:bg-surface-4 ${complete ? "text-teal hover:text-teal" : "text-ink hover:text-ink"}`}
+                    >
+                      <span className="w-4 font-mono text-xs font-semibold">{sec.letter}</span>
+                      <span className="flex-1 text-[13px] font-semibold">{sec.short}</span>
+                      <span className="font-mono text-xs font-medium text-muted">
+                        {done}/{sec.items.length}
+                        <span className="sr-only"> done</span>
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+          <div className="flex min-w-0 flex-col gap-3">
+            {sections.map((sec) => (
+              <section key={sec.letter} id={`sec-${sec.letter}`} aria-labelledby={`sec-${sec.letter}-h`} className="scroll-mt-24 rounded-card bg-surface p-[clamp(16px,2.2vw,26px)]">
+                <div className="mb-1.5 flex flex-wrap items-baseline justify-between gap-2.5">
+                  <h2 id={`sec-${sec.letter}-h`} className="m-0 font-heading text-[21px] font-semibold">
+                    <span className="mr-2 font-mono text-sm font-medium text-muted">{sec.letter}</span>
+                    {sec.title}
                   </h2>
-                  {sections[cur].researchOnly && (
-                    <p className="m-0 mb-1.5 text-[13px] text-teal">Shown because this is a research grant, MPhil or PhD application.</p>
-                  )}
-                  <div className="mt-[18px] flex flex-col gap-2.5">
-                    {sections[cur].items.map((it) => (
-                      <ItemRow
-                        key={it.id}
-                        item={it}
-                        state={c.items[it.id]}
-                        note={c.notes[it.id] ?? ""}
-                        onState={(s) => setState(it.id, s)}
-                        onNote={(n) => setNote(it.id, n)}
-                        tipOpen={Boolean(tipOpen[it.id])}
-                        onTip={() => toggleTip(it.id)}
-                        variant="card"
-                      />
-                    ))}
-                  </div>
-                  <div className="mt-[22px] flex flex-wrap justify-between gap-2.5">
-                    <button
-                      type="button"
-                      disabled={cur === 0}
-                      onClick={() => {
-                        setSection(cur - 1);
-                        window.scrollTo({ top: 0 });
-                      }}
-                      className="min-h-[50px] rounded-pill border-[1.5px] border-ink bg-surface px-[22px] text-xs font-bold uppercase tracking-[.05em] disabled:border-border-input disabled:text-muted"
-                    >
-                      ← Previous
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (cur >= sections.length - 1) go({ step: "summary" });
-                        else {
-                          setSection(cur + 1);
-                          window.scrollTo({ top: 0 });
-                          setTimeout(() => document.getElementById("cur-section")?.focus({ preventScroll: true }), 0);
-                        }
-                      }}
-                      className="min-h-[50px] rounded-pill border-0 bg-navy px-6 text-xs font-bold uppercase tracking-[.05em] text-white"
-                    >
-                      {cur >= sections.length - 1 ? "See readiness summary" : "Next section →"}
-                    </button>
-                  </div>
-                </section>
-              )}
-              <aside aria-label="Committee" className="flex flex-col gap-3 min-[900px]:sticky min-[900px]:top-24">
-                <section className="rounded-card bg-navy p-[22px] text-white">
-                  <p className="m-0 mb-1.5 text-xs font-semibold uppercase tracking-[.06em] text-gold-on-dark">The committee is asking</p>
-                  <p className="m-0 font-heading text-[19px] leading-[1.3] font-semibold">“{COMMITTEE_QUESTION[c.type ?? "scholarship"]}”</p>
-                </section>
-                <CommitteePanel type={c.type} />
-              </aside>
-            </div>
-          </>
-        ))}
+                  <span className="flex h-7 items-center rounded-pill border border-border-input px-2.5 text-xs font-semibold">{sec.quality}</span>
+                </div>
+                {sec.researchOnly && (
+                  <p className="m-0 mb-1.5 text-[13px] text-teal">Shown because this is a research grant, MPhil or PhD application.</p>
+                )}
+                {sec.items.map((it) => (
+                  <ItemRow
+                    key={it.id}
+                    item={it}
+                    state={c.items[it.id]}
+                    note={c.notes[it.id] ?? ""}
+                    onState={(s) => setState(it.id, s)}
+                    onNote={(n) => setNote(it.id, n)}
+                    tipOpen={Boolean(tipOpen[it.id])}
+                    onTip={() => toggleTip(it.id)}
+                  />
+                ))}
+              </section>
+            ))}
+            <button
+              type="button"
+              onClick={() => go({ step: "summary" })}
+              className="min-h-[52px] self-end rounded-pill border-0 bg-gold px-7 text-[13px] font-bold uppercase tracking-[.05em] text-on-gold hover:bg-gold-hover"
+            >
+              See readiness summary
+            </button>
+          </div>
+          <aside aria-label="Readiness" className="flex flex-col gap-3 min-[900px]:col-start-2 min-[1240px]:sticky min-[1240px]:top-24 min-[1240px]:col-start-3">
+            <section aria-labelledby="by-quality" className="rounded-card bg-surface p-5">
+              <h2 id="by-quality" className="m-0 mb-3.5 font-heading text-[17px] font-semibold">
+                Readiness by quality
+              </h2>
+              <QualityBars bars={st.bars} />
+            </section>
+            <CommitteePanel type={c.type} collapsible />
+          </aside>
+        </div>
+      )}
 
       {step === "summary" && (
         <div>

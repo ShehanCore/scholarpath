@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ChecklistApp } from "@/components/checklist/checklist-app";
 import { SupportStrip } from "@/components/support-strip";
-import { LayoutVariantScript, LayoutVariantSwitcher } from "@/components/layout-variant";
 import { getDestinations, getScholarships } from "@/lib/db/queries";
 import { getToday } from "@/lib/today";
 
@@ -16,12 +15,10 @@ export default async function ChecklistPage() {
   const destNames = Object.fromEntries(destinations.map((d) => [d.code, d.name]));
   return (
     <>
-      <LayoutVariantScript />
       <Suspense fallback={<div aria-busy="true" aria-label="Loading checklist" className="mt-10 h-[480px] rounded-card-lg bg-surface" />}>
         <ChecklistApp scholarships={[...scholarships].sort((a, b) => a.name.localeCompare(b.name))} destNames={destNames} today={today} />
       </Suspense>
       <SupportStrip className="mt-4" />
-      <LayoutVariantSwitcher />
     </>
   );
 }

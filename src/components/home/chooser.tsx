@@ -48,7 +48,7 @@ function ChooserGrid({ list, headingSize }: { list: ChooserList; headingSize: st
   );
 }
 
-/** Layout A: "Browse by" list on the left switches the chooser under the featured carousel. */
+/** "Browse by" list on the left switches the chooser under the featured carousel. */
 export function BrowseA({
   lists,
   quickFilters,
@@ -103,44 +103,5 @@ export function BrowseA({
         <ChooserGrid list={lists[key]} headingSize="text-[19px]" />
       </div>
     </div>
-  );
-}
-
-/** Layout B: four entry tiles; each opens its chooser below. */
-export function BrowseB({ lists }: { lists: ChooserLists }) {
-  const [key, setKey] = useState<BrowseKey | null>(null);
-  return (
-    <>
-      <div className="mt-4 grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))]">
-        {KEYS.map((k, i) => {
-          const on = k === key;
-          return (
-            <button
-              key={k}
-              type="button"
-              aria-expanded={on}
-              aria-controls="home-b-chooser"
-              onClick={() => setKey(on ? null : k)}
-              className={`flex min-h-[150px] flex-col justify-between gap-4 rounded-card border-2 bg-surface p-[22px] text-left hover:border-navy ${
-                on ? "border-navy" : "border-surface"
-              }`}
-            >
-              <span className="font-mono text-xs font-medium text-muted">0{i + 1}</span>
-              <span className="flex flex-col gap-1">
-                <span className="font-heading text-2xl font-semibold text-ink">{lists[k].label}</span>
-                <span className="text-[13px] text-muted">{lists[k].tileSub}</span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-      <div id="home-b-chooser">
-        {key && (
-          <section className="mt-3 rounded-card bg-surface p-[clamp(16px,2.4vw,28px)]">
-            <ChooserGrid list={lists[key]} headingSize="text-xl" />
-          </section>
-        )}
-      </div>
-    </>
   );
 }

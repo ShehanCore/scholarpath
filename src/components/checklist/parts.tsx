@@ -31,7 +31,6 @@ export function ItemRow({
   onNote,
   tipOpen,
   onTip,
-  variant,
 }: {
   item: ChecklistItem;
   state: ItemState | undefined;
@@ -40,25 +39,22 @@ export function ItemRow({
   onNote: (n: string) => void;
   tipOpen: boolean;
   onTip: () => void;
-  /** "row" for layout A (inline), "card" for layout B (stacked on a grey card). */
-  variant: "row" | "card";
 }) {
   const id = useId();
   const [noteOpen, setNoteOpen] = useState(Boolean(note));
-  const card = variant === "card";
   return (
     <div
       id={`item-${item.id}`}
-      className={card ? "flex flex-col gap-3 rounded-card-md bg-surface-2 p-[18px]" : "flex flex-col gap-2 border-t border-border py-3.5"}
+      className="flex flex-col gap-2 border-t border-border py-3.5"
     >
-      <div className={card ? "flex flex-col gap-3" : "flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5"}>
-        <p id={`${id}-text`} className={`m-0 text-pretty ${card ? "text-base leading-[1.45] font-semibold" : "flex-[1_1_300px] text-[15px] leading-normal"}`}>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5">
+        <p id={`${id}-text`} className="m-0 flex-[1_1_300px] text-[15px] leading-normal text-pretty">
           {item.text}
         </p>
         <div
           role="group"
           aria-labelledby={`${id}-text`}
-          className={card ? "grid max-w-[440px] grid-cols-3 gap-1.5" : "flex flex-wrap gap-1.5"}
+          className="flex flex-wrap gap-1.5"
         >
           {OPTIONS.map(([k, label]) => {
             const on = state === k;
@@ -68,9 +64,9 @@ export function ItemRow({
                 type="button"
                 aria-pressed={on}
                 onClick={() => onState(on ? undefined : k)}
-                className={`border-[1.5px] px-3.5 text-[13px] font-semibold whitespace-nowrap ${
-                  card ? "min-h-[46px] rounded-segment" : "min-h-11 rounded-pill"
-                } ${on ? selected[k] : "border-border-input bg-surface text-ink hover:bg-surface-4"}`}
+                className={`min-h-11 rounded-pill border-[1.5px] px-3.5 text-[13px] font-semibold whitespace-nowrap ${
+                  on ? selected[k] : "border-border-input bg-surface text-ink hover:bg-surface-4"
+                }`}
               >
                 {label}
               </button>
@@ -98,7 +94,7 @@ export function ItemRow({
           {note ? "Note" : noteOpen ? "Hide note" : "Add note"}
         </button>
       </div>
-      <p id={`${id}-tip`} hidden={!tipOpen} className={`m-0 rounded-segment px-3.5 py-3 text-sm leading-[1.55] ${card ? "bg-surface" : "bg-tint-bg"}`}>
+      <p id={`${id}-tip`} hidden={!tipOpen} className="m-0 rounded-segment bg-tint-bg px-3.5 py-3 text-sm leading-[1.55]">
         {item.tip}
       </p>
       <div id={`${id}-note`} hidden={!noteOpen}>
