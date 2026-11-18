@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { AuthCard, Heading, Unavailable, primaryButton } from "@/components/auth/auth-ui";
 import { ProfileRows, profileComplete } from "@/components/auth/register-flow";
@@ -33,6 +34,8 @@ async function Account() {
         </Link>
       </>
     );
+  // Per-request: the session (and Supabase's token-expiry check) must not run while prerendering.
+  await connection();
   const user = await currentUser();
   if (!user) return <Link href="/login?next=/account">Log in to see your account</Link>;
   const [{ data: row }, destinations] = await Promise.all([
