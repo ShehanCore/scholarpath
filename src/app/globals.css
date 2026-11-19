@@ -146,3 +146,38 @@
     animation: none !important;
   }
 }
+
+/* Long-form text pages (components/prose-page.tsx). */
+.prose-sp {
+  font-size: 16px;
+  line-height: 1.65;
+}
+.prose-sp h2 {
+  margin: 32px 0 10px;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.prose-sp h2:first-child {
+  margin-top: 0;
+}
+.prose-sp p,
+.prose-sp ul,
+.prose-sp dl {
+  margin: 0 0 14px;
+}
+.prose-sp ul {
+  padding-left: 22px;
+  list-style: disc;
+}
+.prose-sp li {
+  margin-bottom: 6px;
+}
+.prose-sp dt {
+  font-weight: 700;
+}
+.prose-sp dd {
+  margin: 0 0 12px;
+  color: var(--color-muted);
+}

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { siteUrl } from "@/lib/site-url";
 import { IBM_Plex_Mono, Manrope, Urbanist } from "next/font/google";
 import { AccountSync } from "@/components/account-sync";
 import { SiteFooter } from "@/components/site-footer";
@@ -9,10 +10,15 @@ const urbanist = Urbanist({ variable: "--font-urbanist", subsets: ["latin"], wei
 const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 const plexMono = IBM_Plex_Mono({ variable: "--font-plex-mono", subsets: ["latin"], weight: ["400", "500"] });
 
+const description =
+  "Browse funding to study abroad by discipline, level, destination and university — then run a pre-submission check before you apply.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
   title: { default: "ScholarPath — Find the right scholarship", template: "%s · ScholarPath" },
-  description:
-    "Browse funding to study abroad by discipline, level, destination and university — then run a pre-submission check before you apply.",
+  description,
+  openGraph: { type: "website", siteName: "ScholarPath", locale: "en_LK", description },
+  twitter: { card: "summary" },
 };
 
 export const viewport: Viewport = {
