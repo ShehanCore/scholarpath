@@ -1,5 +1,6 @@
 "use client";
 
+import type { User } from "@supabase/supabase-js";
 import { useEffect, useRef } from "react";
 import type { Checklist } from "@/lib/checklist";
 import { useAuthUser } from "@/lib/client/auth-store";
@@ -58,6 +59,7 @@ export function AccountSync() {
     const db = browserClient();
     let cancelled = false;
     (async () => {
+      await ensureProfile(db, user);
       await applyPendingProfile(db, user.id);
       const [rSaved, rElig, rChecklists, rItems, rOut, rRem, rProfile] = await Promise.all([
         db.from("saved").select("scholarship_id"),
@@ -179,6 +181,32 @@ async function pushOutreach(db: Supabase, userId: string, entries: OutreachEntry
   await db.from("outreach").upsert(
     entries.map((e) => ({ ...outreachToRow(e), user_id: userId })),
     { onConflict: "user_id,client_id" },
+  );
+}
+
+const ROLES = ["Student", "Parent", "Adviser / counsellor"] as const;
+
+/**
+ * Safety net for the database's sign-up trigger: if this account has no profile row, create it from the
+ * sign-up details (the same rules as handle_new_user). Never overwrites an existing row.
+ */
+async function ensureProfile(db: Supabase, user: User) {
+  const { data, error } = await db.from("profiles").select("id").eq("id", user.id).maybeSingle();
+  if (error || data) return;
+  const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+  const text = (v: unknown) => (typeof v === "string" ? v : "");
+  const wa = /^\+[1-9]\d{6,14}$/.test(text(meta.whatsapp)) ? text(meta.whatsapp) : null;
+  const role = ROLES.find((r) => r === meta.role) ?? "Student";
+  await db.from("profiles").upsert(
+    {
+      id: user.id,
+      name: (text(meta.name) || text(meta.full_name)).slice(0, 200),
+      role,
+      whatsapp: wa,
+      wa_opt_in: Boolean(wa && meta.wa_opt_in === true),
+      terms_accepted_at: meta.terms === true ? new Date().toISOString() : null,
+    },
+    { onConflict: "id", ignoreDuplicates: true },
   );
 }
 
