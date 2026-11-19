@@ -116,6 +116,14 @@ export type Database = {
         note: string | null;
         updated_at: string;
       }>;
+      verification_log: Table<{
+        id: number;
+        scholarship_id: string;
+        verified_at: string;
+        verified_by: string | null;
+        status: "checked" | "expected_or_to_confirm" | "sample";
+        note: string | null;
+      }>;
       ai_draft_usage: Table<{ user_id: string; day: string; count: number }>;
       rankings: Table<RankingRow & { id: number; updated_at: string; updated_by: string | null }>;
       reopen_alerts: Table<{
