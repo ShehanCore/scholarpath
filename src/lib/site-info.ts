@@ -13,8 +13,6 @@ export const siteInfo = {
   adviserContact: "",
   /** Official WhatsApp channel or group link, once it exists. */
   whatsappLink: "",
-  /** Months after the last sign-in before an unused account is deleted. 0 = not decided yet. */
-  inactiveAccountMonths: 0,
   /** Date the privacy notice was last updated (YYYY-MM-DD). */
   privacyUpdated: "2026-11-19",
 };

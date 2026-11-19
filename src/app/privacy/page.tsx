@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Detail, ProsePage } from "@/components/prose-page";
+import { INACTIVE_DAYS, WARNING_DAYS_BEFORE } from "@/lib/inactive-accounts";
 import { siteInfo } from "@/lib/site-info";
 import { formatDate } from "@/lib/verification";
 
@@ -79,7 +80,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Supabase: database and sign-in</li>
         <li>Vercel: hosting the website</li>
-        <li>Resend: sending reminder and alert emails</li>
+        <li>Resend: sending reminder, alert and account emails</li>
         <li>Anthropic: AI email drafts, only when you ask for one</li>
         <li>Google: sign-in, only if you choose “Continue with Google”</li>
         <li>Meta (WhatsApp): WhatsApp messages, only if you opt in</li>
@@ -90,8 +91,8 @@ export default function PrivacyPage() {
       <ul>
         <li>Your account and everything linked to it: until you delete your account.</li>
         <li>
-          Accounts nobody signs in to: deleted after{" "}
-          <Detail value={siteInfo.inactiveAccountMonths}>{siteInfo.inactiveAccountMonths} months</Detail> without a sign-in.
+          Accounts that aren&apos;t used for {INACTIVE_DAYS} days are deleted, with everything linked to them. We email you{" "}
+          {WARNING_DAYS_BEFORE} days before, so you can sign in to keep your account.
         </li>
         <li>“Notify me” requests: until you stop the alert or ask us to delete it.</li>
       </ul>

@@ -78,6 +78,8 @@ export type Database = {
         intake: "2027" | "2028" | "Not sure" | null;
         deadline_reminders: boolean;
         terms_accepted_at: string | null;
+        last_seen_at: string;
+        inactivity_warned_at: string | null;
         created_at: string;
         updated_at: string;
       }>;

@@ -60,6 +60,12 @@ export function AccountSync() {
     let cancelled = false;
     (async () => {
       await ensureProfile(db, user);
+      // "Last used", for deleting accounts after 60 days without use. At most one write a day.
+      void db
+        .from("profiles")
+        .update({ last_seen_at: new Date().toISOString() })
+        .eq("id", user.id)
+        .lt("last_seen_at", new Date(Date.now() - 86_400_000).toISOString());
       await applyPendingProfile(db, user.id);
       const [rSaved, rElig, rChecklists, rItems, rOut, rRem, rProfile] = await Promise.all([
         db.from("saved").select("scholarship_id"),

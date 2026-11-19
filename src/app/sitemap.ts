@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     page("/destinations", 0.8),
     page("/checklist", 0.7),
     page("/deadlines", 0.6),
-    ...["/about", "/how-we-verify", "/rankings-note", "/adviser", "/privacy"].map((p) => page(p, 0.3)),
+    ...["/about", "/how-we-verify", "/rankings-note", "/adviser", "/privacy", "/terms"].map((p) => page(p, 0.3)),
     ...scholarships.map((s) => page(scholarshipHref(s.id), 0.8, s.lastVerified)),
     ...destinations.map((d) => page(destinationHref(d.code), 0.7)),
     ...universities.map((u) => page(universityHref(u.id), 0.5)),

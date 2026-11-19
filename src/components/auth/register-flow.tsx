@@ -405,7 +405,7 @@ function AccountStep({
           />
         )}
         <Checkbox checked={consent} onChange={setConsent} invalid={Boolean(err("consent"))} describedBy={err("consent") ? `${waId}-consent-err` : undefined}>
-          I agree to the <Link href="/privacy">Terms and Privacy policy</Link>. ScholarPath gives information only and doesn&apos;t guarantee
+          I agree to the <Link href="/terms">Terms</Link> and <Link href="/privacy">Privacy policy</Link>. ScholarPath gives information only and doesn&apos;t guarantee
           funding.
         </Checkbox>
         {err("consent") && <FieldError id={`${waId}-consent-err`}>{err("consent")}</FieldError>}

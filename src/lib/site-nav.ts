@@ -25,6 +25,7 @@ export const footerNav = [
   { label: "Rankings note", href: "/rankings-note" },
   { label: "Talk to an adviser", href: "/adviser" },
   { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 export function isActive(pathname: string, match: string[]) {

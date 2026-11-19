@@ -8,7 +8,7 @@
 ## Set up a Supabase project
 
 1. Create a project at supabase.com (region: Mumbai `ap-south-1` is closest to Sri Lanka).
-2. SQL Editor → paste and run `migrations/20261026000000_initial_schema.sql`, then `seed.sql`.
+2. SQL Editor → paste and run each file in `migrations/` in filename order, then `seed.sql`.
    (Or with the Supabase CLI: `npx supabase link --project-ref <ref>` then `npx supabase db push` and run the seed.)
 3. Project Settings → API Keys: copy the project URL and the **publishable** key into `.env.local` and into Vercel
    (see `.env.example`). The **secret** key goes only in Vercel's server-side environment variables, never in the browser or in chat.

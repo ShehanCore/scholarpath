@@ -4,7 +4,8 @@ import "server-only";
 // (an address on a domain verified in Resend, e.g. "ScholarPath <alerts@scholarpath.lk>").
 export const emailConfigured = Boolean(process.env.RESEND_API_KEY && process.env.ALERTS_FROM_EMAIL);
 
-export async function sendEmail(msg: { to: string; subject: string; text: string; html: string; unsubscribeUrl: string }) {
+/** unsubscribeUrl: for opt-in emails (alerts, reminders); account notices have none. */
+export async function sendEmail(msg: { to: string; subject: string; text: string; html: string; unsubscribeUrl?: string }) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
@@ -14,11 +15,13 @@ export async function sendEmail(msg: { to: string; subject: string; text: string
       subject: msg.subject,
       text: msg.text,
       html: msg.html,
-      headers: {
-        // One-click unsubscribe (RFC 8058): mail apps POST to this URL.
-        "List-Unsubscribe": `<${msg.unsubscribeUrl.replace("/alerts/unsubscribe", "/api/alerts/unsubscribe")}>`,
-        "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-      },
+      ...(msg.unsubscribeUrl && {
+        headers: {
+          // One-click unsubscribe (RFC 8058): mail apps POST to this URL.
+          "List-Unsubscribe": `<${msg.unsubscribeUrl.replace("/alerts/unsubscribe", "/api/alerts/unsubscribe")}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
+      }),
     }),
   });
   if (!res.ok) throw new Error(`Email failed (${res.status}): ${(await res.text()).slice(0, 200)}`);
