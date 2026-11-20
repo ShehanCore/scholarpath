@@ -1,9 +1,11 @@
-// Inactive accounts: warn at 53 days without use, delete after 60 days and at least 7 days after the
+// Inactive accounts: warn 7 days before 6 months without use, delete after 6 months and at least 7 days after the
 // warning (privacy notice). Pure, so it's testable; the daily job does the I/O.
 import { addDays } from "@/lib/outreach";
 import { formatDate } from "@/lib/verification";
 
-export const INACTIVE_DAYS = 60;
+export const INACTIVE_DAYS = 180;
+/** INACTIVE_DAYS as people read it. */
+export const INACTIVE_LABEL = "6 months";
 export const WARNING_DAYS_BEFORE = 7;
 
 export type AccountActivity = {
@@ -43,14 +45,14 @@ export function inactivityEmail(siteUrl: string, today: string) {
   const login = `${siteUrl}/login`;
   const subject = "Your ScholarPath account will be deleted in 7 days";
   const text = [
-    `You haven't used your ScholarPath account for ${INACTIVE_DAYS - WARNING_DAYS_BEFORE} days.`,
-    `To protect your data, we delete accounts after ${INACTIVE_DAYS} days without use. Sign in before ${deadline} to keep yours:`,
+    `You haven't used your ScholarPath account for almost ${INACTIVE_LABEL}.`,
+    `To protect your data, we delete accounts after ${INACTIVE_LABEL} without use. Sign in before ${deadline} to keep yours:`,
     login,
     "",
     "If you'd like it deleted, you don't need to do anything. Your saved scholarships, checklists and email log will be removed with it.",
   ].join("\n");
-  const html = `<p>You haven't used your ScholarPath account for ${INACTIVE_DAYS - WARNING_DAYS_BEFORE} days.</p>
-<p>To protect your data, we delete accounts after ${INACTIVE_DAYS} days without use. <a href="${login}">Sign in</a> before ${deadline} to keep yours.</p>
+  const html = `<p>You haven't used your ScholarPath account for almost ${INACTIVE_LABEL}.</p>
+<p>To protect your data, we delete accounts after ${INACTIVE_LABEL} without use. <a href="${login}">Sign in</a> before ${deadline} to keep yours.</p>
 <p style="color:#4B5A6B;font-size:13px">If you'd like it deleted, you don't need to do anything. Your saved scholarships, checklists and email log will be removed with it.</p>`;
   return { subject, text, html };
 }

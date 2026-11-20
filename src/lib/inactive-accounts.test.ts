@@ -13,12 +13,12 @@ const acct = (over: Partial<AccountActivity>): AccountActivity => ({
 const ids = (xs: AccountActivity[]) => xs.map((x) => x.id);
 
 describe("inactivityPlan", () => {
-  it("warns at 53 days without use, not before", () => {
+  it("warns 7 days before 6 months without use, not before", () => {
     const p = inactivityPlan(
-      [acct({ id: "52", lastSeenAt: "2026-09-28T10:00:00Z" }), acct({ id: "53", lastSeenAt: "2026-09-27T10:00:00Z" })],
+      [acct({ id: "172", lastSeenAt: "2026-05-31T10:00:00Z" }), acct({ id: "173", lastSeenAt: "2026-05-30T10:00:00Z" })],
       "2026-11-19",
     );
-    expect(ids(p.warn)).toEqual(["53"]);
+    expect(ids(p.warn)).toEqual(["173"]);
     expect(p.remove).toEqual([]);
   });
 
@@ -27,8 +27,8 @@ describe("inactivityPlan", () => {
     expect(p).toEqual({ warn: [], remove: [] });
   });
 
-  it("deletes only after 60 days and at least 7 days after a warning", () => {
-    const seen = "2026-09-01T00:00:00Z";
+  it("deletes only after 6 months and at least 7 days after a warning", () => {
+    const seen = "2026-04-01T00:00:00Z";
     const p = inactivityPlan(
       [
         acct({ id: "never-warned", lastSeenAt: seen }),
@@ -42,7 +42,7 @@ describe("inactivityPlan", () => {
   });
 
   it("ignores a warning from before the student came back", () => {
-    const p = inactivityPlan([acct({ lastSeenAt: "2026-09-10T00:00:00Z", warnedAt: "2026-08-01T00:00:00Z" })], "2026-11-19");
+    const p = inactivityPlan([acct({ lastSeenAt: "2026-05-10T00:00:00Z", warnedAt: "2026-04-01T00:00:00Z" })], "2026-11-19");
     expect(p.remove).toEqual([]);
     expect(p.warn).toHaveLength(1);
   });

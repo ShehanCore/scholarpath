@@ -90,7 +90,7 @@ export async function runDeadlineReminders(): Promise<JobResult> {
   return { status: 200, body: { due: due.length, sent, failed } };
 }
 
-/** Accounts unused for 60 days: warn at 53, delete after 60 and 7 days after the warning. */
+/** Accounts unused for 6 months: warn 7 days before, delete only 7 days after the warning. */
 export async function runInactiveAccounts(): Promise<JobResult> {
   if (!serviceConfigured) return notConfigured;
   // Never delete without being able to warn first.

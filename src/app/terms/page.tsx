@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Detail, ProsePage } from "@/components/prose-page";
-import { INACTIVE_DAYS } from "@/lib/inactive-accounts";
+import { INACTIVE_LABEL } from "@/lib/inactive-accounts";
 import { siteInfo } from "@/lib/site-info";
 import { formatDate } from "@/lib/verification";
 
@@ -38,7 +38,7 @@ export default function TermsPage() {
         <li>Give accurate details, including a WhatsApp number you use, and keep your password private.</li>
         <li>One account per person. If you&apos;re under 18, ask a parent or guardian before you register.</li>
         <li>You can delete your account at any time from your account page.</li>
-        <li>Accounts that aren&apos;t used for {INACTIVE_DAYS} days are deleted after an email warning (see the <Link href="/privacy">privacy notice</Link>).</li>
+        <li>Accounts that aren&apos;t used for {INACTIVE_LABEL} are deleted after an email warning (see the <Link href="/privacy">privacy notice</Link>).</li>
       </ul>
 
       <h2>Emails you write</h2>

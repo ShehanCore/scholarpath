@@ -60,7 +60,7 @@ export function AccountSync() {
     let cancelled = false;
     (async () => {
       await ensureProfile(db, user);
-      // "Last used", for deleting accounts after 60 days without use. At most one write a day.
+      // "Last used", for deleting accounts after 6 months without use. At most one write a day.
       void db
         .from("profiles")
         .update({ last_seen_at: new Date().toISOString() })

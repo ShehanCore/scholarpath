@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Detail, ProsePage } from "@/components/prose-page";
-import { INACTIVE_DAYS, WARNING_DAYS_BEFORE } from "@/lib/inactive-accounts";
+import { INACTIVE_LABEL, WARNING_DAYS_BEFORE } from "@/lib/inactive-accounts";
 import { siteInfo } from "@/lib/site-info";
 import { formatDate } from "@/lib/verification";
 
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Your account and everything linked to it: until you delete your account.</li>
         <li>
-          Accounts that aren&apos;t used for {INACTIVE_DAYS} days are deleted, with everything linked to them. We email you{" "}
+          Accounts that aren&apos;t used for {INACTIVE_LABEL} are deleted, with everything linked to them. We email you{" "}
           {WARNING_DAYS_BEFORE} days before, so you can sign in to keep your account.
         </li>
         <li>“Notify me” requests: until you stop the alert or ask us to delete it.</li>
