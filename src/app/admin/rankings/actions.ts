@@ -1,8 +1,7 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { headers } from "next/headers";
-import { checkAdminAuth } from "@/lib/admin-auth";
+import { currentAdmin } from "@/lib/admin-session";
 import { serviceClient, serviceConfigured } from "@/lib/db/service-client";
 import { RANK_SOURCE, RANK_SOURCE_URL, RANK_TO_CONFIRM, RANK_YEAR, parseRank } from "@/lib/rank";
 
@@ -11,7 +10,7 @@ export type RankFormState = { ok: boolean; message: string } | null;
 /** Sets or clears one university's rank for the current edition. Empty clears it ("Rank band: to confirm"). */
 export async function saveRank(_prev: RankFormState, form: FormData): Promise<RankFormState> {
   // The proxy already guards /admin; check again because server actions are plain POST endpoints.
-  const editor = checkAdminAuth((await headers()).get("authorization"));
+  const editor = await currentAdmin();
   if (!editor) return { ok: false, message: "You're not signed in to the admin." };
   if (!serviceConfigured) return { ok: false, message: "Connect Supabase (URL and secret key) to save ranks." };
 

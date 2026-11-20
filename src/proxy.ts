@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { adminConfigured, checkAdminAuth } from "@/lib/admin-auth";
+import { ADMIN_COOKIE, adminConfigured, readAdminSession } from "@/lib/admin-auth";
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -10,14 +10,16 @@ export async function proxy(request: NextRequest) {
   return refreshSession(request);
 }
 
-// /admin (pages and the server actions they post): HTTP Basic auth.
-function adminGate(request: NextRequest) {
+// /admin (pages and the server actions they post): signed-in admins only; everyone else goes to the
+// sign-in page. Closed (404) until ADMIN_USER and ADMIN_PASSWORD are set.
+async function adminGate(request: NextRequest) {
   if (!adminConfigured()) return new NextResponse("Not found", { status: 404 });
-  if (checkAdminAuth(request.headers.get("authorization"))) return NextResponse.next();
-  return new NextResponse("Authentication required", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="ScholarPath admin", charset="UTF-8"', "Cache-Control": "no-store" },
-  });
+  if (request.nextUrl.pathname === "/admin/login") return NextResponse.next();
+  if (await readAdminSession(request.cookies.get(ADMIN_COOKIE)?.value)) return NextResponse.next();
+  const login = request.nextUrl.clone();
+  login.pathname = "/admin/login";
+  login.search = `?next=${encodeURIComponent(request.nextUrl.pathname)}`;
+  return NextResponse.redirect(login);
 }
 
 // Account pages: refresh the Supabase session cookie before the page renders, and send signed-out

@@ -1,8 +1,7 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { headers } from "next/headers";
-import { checkAdminAuth } from "@/lib/admin-auth";
+import { currentAdmin } from "@/lib/admin-session";
 import { parseScholarshipForm, type FieldErrors } from "@/lib/admin-scholarship";
 import { serviceClient, serviceConfigured } from "@/lib/db/service-client";
 
@@ -11,7 +10,7 @@ export type ScholarshipFormState = { ok: boolean; message: string; errors?: Fiel
 /** Saves one scholarship and logs the check in verification_log. The site updates within seconds. */
 export async function saveScholarship(_prev: ScholarshipFormState, form: FormData): Promise<ScholarshipFormState> {
   // The proxy already guards /admin; check again because server actions are plain POST endpoints.
-  const editor = checkAdminAuth((await headers()).get("authorization"));
+  const editor = await currentAdmin();
   if (!editor) return { ok: false, message: "You're not signed in to the admin." };
   if (!serviceConfigured) return { ok: false, message: "Connect Supabase (URL and secret key) to save scholarships." };
 
